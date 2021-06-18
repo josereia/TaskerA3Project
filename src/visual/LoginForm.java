@@ -17,12 +17,15 @@ import dto.UsuarioDTO;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class LoginForm {
 
 	private JFrame frmLogin;
 	private JTextField text_login;
-	private JTextField text_senha;
+	private JPasswordField text_senha;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -45,7 +48,8 @@ public class LoginForm {
 
 	private void initialize() {
 		frmLogin = new JFrame();
-		frmLogin.setIconImage(Toolkit.getDefaultToolkit().getImage("assets/logo.png"));
+		frmLogin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frmLogin.setIconImage(Toolkit.getDefaultToolkit().getImage("resources/logo.png"));
 		frmLogin.setResizable(false);
 		frmLogin.setTitle("Login");
 		frmLogin.setBounds(100, 100, 240, 240);
@@ -58,16 +62,7 @@ public class LoginForm {
 		JButton btn_entrar = new JButton("Entrar");
 		btn_entrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UsuarioDTO usuariodto = new UsuarioDTO();
-				usuariodto.setLogin(text_login.getText());
-				usuariodto.setSenha(text_senha.getText());
-
-				if (new UsuarioDAO().checkLogin(usuariodto) != null) {
-					new PrincipalForm(usuariodto).setVisible(true);
-					frmLogin.dispose();
-				} else {
-					JOptionPane.showMessageDialog(frmLogin, "Login ou senha incorretos!");
-				}
+				login();
 			}
 		});
 
@@ -91,17 +86,40 @@ public class LoginForm {
 		lblNewLabel_1_1.setBounds(44, 73, 46, 14);
 		panel_1.add(lblNewLabel_1_1);
 
-		text_senha = new JTextField();
-		text_senha.setColumns(10);
-		text_senha.setBounds(44, 94, 140, 20);
-		panel_1.add(text_senha);
-
 		JLabel lblNewLabel = new JLabel("Esqueceu a senha?");
 		lblNewLabel.setBounds(44, 120, 140, 14);
 		panel_1.add(lblNewLabel);
+
+		text_senha = new JPasswordField();
+		text_senha.addKeyListener(new KeyAdapter() {
+			@Override
+			// ação ao pressionar enter
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					login();
+				}
+			}
+		});
+		text_senha.setBounds(44, 94, 140, 20);
+		panel_1.add(text_senha);
 	}
 
 	public void setVisible(boolean b) {
 		frmLogin.setVisible(b);
+	}
+
+	// métodos
+	// método de verificação de login
+	public void login() {
+		UsuarioDTO usuariodto = new UsuarioDTO();
+		usuariodto.setLogin(text_login.getText());
+		usuariodto.setSenha(String.valueOf(text_senha.getPassword()));
+
+		if (new UsuarioDAO().checkLogin(usuariodto) != null) {
+			new PrincipalForm(usuariodto).setVisible(true);
+			frmLogin.dispose();
+		} else {
+			JOptionPane.showMessageDialog(frmLogin, "Login ou senha incorretos!");
+		}
 	}
 }

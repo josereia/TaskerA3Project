@@ -1,6 +1,7 @@
 package visual;
 
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -49,6 +50,7 @@ public class PrincipalForm {
 	private void initialize() {
 		frmPrincipal = new JFrame();
 		frmPrincipal.setTitle("Principal");
+		frmPrincipal.setIconImage(Toolkit.getDefaultToolkit().getImage("resources/logo.png"));
 		frmPrincipal.setBounds(100, 100, 450, 300);
 		frmPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// faz com que a janela inicie no centro da tela
