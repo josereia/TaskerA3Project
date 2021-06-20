@@ -22,11 +22,11 @@ public class UsuarioDAO implements IDAO {
 
 			rs = stmt.executeQuery();
 			if (rs.next()) {
-				usuariodto.setId(rs.getInt("id"));
+				usuariodto.setId(rs.getInt("idusuario"));
 				usuariodto.setNome(rs.getString("nome"));
 				usuariodto.setSobrenome(rs.getString("sobrenome"));
 				usuariodto.setEmail(rs.getString("email"));
-				usuariodto.setEmpresa(rs.getString("empresa"));
+				usuariodto.setEmpresa(rs.getInt("empresa_idempresa"));
 				usuariodto.setAcesso(rs.getBoolean("acesso"));
 			} else {
 				return null;
@@ -59,11 +59,11 @@ public class UsuarioDAO implements IDAO {
 
 			rs = stmt.executeQuery();
 			if (rs.next()) {
-				usuariodto.setId(rs.getInt("id"));
+				usuariodto.setId(rs.getInt("idusuario"));
 				usuariodto.setNome(rs.getString("nome"));
 				usuariodto.setSobrenome(rs.getString("sobrenome"));
 				usuariodto.setEmail(rs.getString("email"));
-				usuariodto.setEmpresa(rs.getString("empresa"));
+				usuariodto.setEmpresa(rs.getInt("empresa_idempresa"));
 				usuariodto.setAcesso(rs.getBoolean("acesso"));
 			} else {
 				return null;

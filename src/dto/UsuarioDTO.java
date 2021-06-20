@@ -5,7 +5,7 @@ public class UsuarioDTO {
 	private String nome;
 	private String sobrenome;
 	private String email;
-	private String empresa;
+	private int empresa;
 	private boolean acesso;
 	private String login;
 	private String senha;
@@ -14,7 +14,7 @@ public class UsuarioDTO {
 
 	}
 
-	public UsuarioDTO(int id, String nome, String sobrenome, String email, String empresa, boolean acesso, String login,
+	public UsuarioDTO(int id, String nome, String sobrenome, String email, int empresa, boolean acesso, String login,
 			String senha) {
 		this.id = id;
 		this.nome = nome;
@@ -58,11 +58,11 @@ public class UsuarioDTO {
 		this.email = email;
 	}
 
-	public String getEmpresa() {
+	public int getEmpresa() {
 		return empresa;
 	}
 
-	public void setEmpresa(String empresa) {
+	public void setEmpresa(int empresa) {
 		this.empresa = empresa;
 	}
 
