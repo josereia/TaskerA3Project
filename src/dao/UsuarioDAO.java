@@ -32,9 +32,7 @@ public class UsuarioDAO implements IDAO {
 				return null;
 			}
 		} catch (SQLException e) {
-			// TODO: handle exception
 			e.printStackTrace();
-			return null;
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt, rs);
 		}
