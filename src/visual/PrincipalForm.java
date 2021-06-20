@@ -95,20 +95,32 @@ public class PrincipalForm {
 
 		JButton btnNewButton_2 = new JButton("Inserir");
 		GroupLayout groupLayout = new GroupLayout(frmPrincipal.getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup().addContainerGap()
-						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(table, GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
-								.addGroup(groupLayout.createSequentialGroup().addComponent(btnNewButton_2)
-										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(btnNewButton_1)
-										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(btn_excluir)))
-						.addContainerGap()));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
-				groupLayout.createSequentialGroup().addContainerGap()
-						.addComponent(table, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE).addGap(18)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btn_excluir)
-								.addComponent(btnNewButton_1).addComponent(btnNewButton_2))
-						.addContainerGap(15, Short.MAX_VALUE)));
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(table, GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(btnNewButton_2)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnNewButton_1)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btn_excluir)))
+					.addContainerGap())
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(table, GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btn_excluir)
+						.addComponent(btnNewButton_1)
+						.addComponent(btnNewButton_2))
+					.addGap(15))
+		);
 		frmPrincipal.getContentPane().setLayout(groupLayout);
 
 		if (usuariodto.isAcesso() == false) {
