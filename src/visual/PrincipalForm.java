@@ -34,7 +34,7 @@ public class PrincipalForm {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					// define o estilo da janela para o estilo padrão do sistema operacional
+					// define o estilo da janela para o estilo padrão do sistema operacionall
 					javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
 					PrincipalForm window = new PrincipalForm();
 					window.frmPrincipal.setVisible(true);
