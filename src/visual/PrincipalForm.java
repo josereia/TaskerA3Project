@@ -19,11 +19,14 @@ import javax.swing.JButton;
 
 import dao.NcsDAO;
 import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PrincipalForm {
 
 	private JFrame frmPrincipal;
 	private UsuarioDTO usuariodto;
+	//toolkit
 	Toolkit toolkit = Toolkit.getDefaultToolkit();
 	private JTable table;
 
@@ -66,6 +69,7 @@ public class PrincipalForm {
 		frmPrincipal = new JFrame();
 		frmPrincipal.setMinimumSize(new Dimension(640, 400));
 		frmPrincipal.setTitle("Principal");
+		//icone da janela
 		frmPrincipal.setIconImage(toolkit.getImage(this.getClass().getResource("/logo.png")));
 		frmPrincipal.setBounds(100, 100, 640, 400);
 		frmPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -95,13 +99,17 @@ public class PrincipalForm {
 		JButton btnNewButton_1 = new JButton("Alterar");
 
 		JButton btnNewButton_2 = new JButton("Inserir");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new CadastroNCForm().setVisible(true);
+			}
+		});
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		table.setModel(DbUtils.resultSetToTableModel(new NcsDAO().read(usuariodto.getEmpresa())));
-
+		carregarTabela();
 		
 		GroupLayout groupLayout = new GroupLayout(frmPrincipal.getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -142,5 +150,10 @@ public class PrincipalForm {
 
 	public void setVisible(boolean b) {
 		frmPrincipal.setVisible(b);
+	}
+	
+	//métodos
+	private void carregarTabela() {
+		table.setModel(DbUtils.resultSetToTableModel(new NcsDAO().read(usuariodto.getEmpresa())));
 	}
 }
