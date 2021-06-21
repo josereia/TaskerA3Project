@@ -8,9 +8,9 @@ import java.sql.SQLException;
 
 public class ConnectionFactory {
 	// private static final String DRIVER = "com.mysql.jdbc.Driver";
-	private static final String URL = "jdbc:mysql://tasker.cxtc9rfraomi.us-east-2.rds.amazonaws.com:3306/tasker";
-	private static final String USER = "taskerA3";
-	private static final String PASSWORD = "tasker21031982";
+	private static final String URL = "jdbc:mysql://127.0.0.1:3306/tasker";
+	private static final String USER = "root";
+	private static final String PASSWORD = "";
 
 	public static Connection getConnection() {
 		Connection conn = null;

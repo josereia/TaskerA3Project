@@ -16,7 +16,7 @@ public class UsuarioDAO implements IDAO {
 		ResultSet rs = null;
 
 		try {
-			stmt = conn.prepareStatement("SELECT * FROM usuario WHERE login =? AND senha =?");
+			stmt = conn.prepareStatement("SELECT * FROM usuarios WHERE login =? AND senha =?");
 			stmt.setString(1, usuariodto.getLogin());
 			stmt.setString(2, usuariodto.getSenha());
 

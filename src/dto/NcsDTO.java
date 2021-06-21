@@ -4,11 +4,11 @@ public class NcsDTO {
 	private int id;
 	private String titulo;
 	private String descricao;
-	private int responsavel;
+	private String responsavel;
 	private String prazo;
 	private String dataCadastro;
-	private int usuario;
-	private int status;
+	private String usuario;
+	private String status;
 
 	public int getId() {
 		return id;
@@ -34,11 +34,11 @@ public class NcsDTO {
 		this.descricao = descricao;
 	}
 
-	public int getResponsavel() {
+	public String getResponsavel() {
 		return responsavel;
 	}
 
-	public void setResponsavel(int responsavel) {
+	public void setResponsavel(String responsavel) {
 		this.responsavel = responsavel;
 	}
 
@@ -58,19 +58,19 @@ public class NcsDTO {
 		this.dataCadastro = dataCadastro;
 	}
 
-	public int getUsuario() {
+	public String getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(int usuario) {
+	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
 
-	public int getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

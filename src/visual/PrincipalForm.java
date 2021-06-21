@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 import dto.UsuarioDTO;
+import net.proteanit.sql.DbUtils;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -15,7 +16,9 @@ import javax.swing.GroupLayout.Alignment;
 import java.awt.Dimension;
 import javax.swing.JTable;
 import javax.swing.JButton;
-import javax.swing.LayoutStyle.ComponentPlacement;
+
+import dao.NcsDAO;
+import javax.swing.JScrollPane;
 
 public class PrincipalForm {
 
@@ -86,39 +89,47 @@ public class PrincipalForm {
 
 		JMenuItem mntmGerFuncionarios = new JMenuItem("Ger. Funcion\u00E1rios");
 		mnAdm.add(mntmGerFuncionarios);
-
-		table = new JTable();
-
+		
 		JButton btn_excluir = new JButton("Excluir");
 
 		JButton btnNewButton_1 = new JButton("Alterar");
 
 		JButton btnNewButton_2 = new JButton("Inserir");
+		
+		JScrollPane scrollPane = new JScrollPane();
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		table.setModel(DbUtils.resultSetToTableModel(new NcsDAO().read(usuariodto.getEmpresa())));
+
+		
 		GroupLayout groupLayout = new GroupLayout(frmPrincipal.getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
+			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(table, GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
-						.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addGap(403)
 							.addComponent(btnNewButton_2)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGap(10)
 							.addComponent(btnNewButton_1)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btn_excluir)))
+							.addGap(10)
+							.addComponent(btn_excluir))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
+			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(table, GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
 					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btn_excluir)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnNewButton_2)
 						.addComponent(btnNewButton_1)
-						.addComponent(btnNewButton_2))
+						.addComponent(btn_excluir))
 					.addGap(15))
 		);
 		frmPrincipal.getContentPane().setLayout(groupLayout);
