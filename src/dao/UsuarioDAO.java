@@ -83,11 +83,10 @@ public class UsuarioDAO implements IDAO {
 		// TODO Auto-generated method stub
 
 	}
-
 	@Override
-	public void delete() {
+	public void delete(int id) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }

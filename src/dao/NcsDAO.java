@@ -4,8 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+
+import javax.swing.JOptionPane;
 
 import connection.ConnectionFactory;
+import dto.NcsDTO;
 
 public class NcsDAO implements IDAO {
 
@@ -37,7 +41,6 @@ public class NcsDAO implements IDAO {
 		}
 		return rs;
 	}
-
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
@@ -45,8 +48,29 @@ public class NcsDAO implements IDAO {
 	}
 
 	@Override
-	public void delete() {
+	public void delete(int idnc) {
 		// TODO Auto-generated method stub
+		Connection conn = ConnectionFactory.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			conn = ConnectionFactory.getConnection();
+			String sql = "DELETE FROM ncs WHERE idnc=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1,idnc);
+			if (stmt.executeUpdate()>0) {
+					JOptionPane.showMessageDialog(null,"Dados excluídos");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionFactory.closeConnection(conn, stmt, rs);;
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 
 	}
 

@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 public class ConnectionFactory {
 	// private static final String DRIVER = "com.mysql.jdbc.Driver";
 	private static final String URL = "jdbc:mysql://127.0.0.1:3306/tasker";
@@ -18,7 +20,7 @@ public class ConnectionFactory {
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e);
 		}
 		return conn;
 	}
