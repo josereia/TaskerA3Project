@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import connection.ConnectionFactory;
+import dto.NcsDTO;
 import dto.UsuarioDTO;
 
 public class UsuarioDAO implements IDAO {
@@ -87,6 +88,18 @@ public class UsuarioDAO implements IDAO {
 	public void delete(int id) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Object update(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public NcsDTO update(NcsDTO ncsdto) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

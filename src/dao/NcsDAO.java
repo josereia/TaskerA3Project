@@ -44,10 +44,28 @@ public class NcsDAO implements IDAO {
 		}
 		return rs;
 	}
+	// BIELZIN GAMEPLAYS XD
 	@Override
-	public void update() {
-		// TODO Auto-generated method stub
+	public NcsDTO update(NcsDTO ncsdto) {
+		Connection conn = ConnectionFactory.getConnection();
+		PreparedStatement stmt = null;
 
+		try {
+			String sql = "UPDATE ncs SET salario=? WHERE cod_cargo = ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setDouble(1, 2000);
+			stmt.setInt(2, 3);
+			if (stmt.executeUpdate() > 0) {
+				System.out.println("Dados alterados");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+
+			ConnectionFactory.closeConnection(conn, stmt);
+		}
+		return ncsdto;
 	}
 
 	@Override
@@ -75,6 +93,18 @@ public class NcsDAO implements IDAO {
 			}
 		}
 
+	}
+
+	@Override
+	public Object update(Object obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
