@@ -14,6 +14,7 @@ public class ConnectionFactory {
 	private static final String USER = "root";
 	private static final String PASSWORD = "";
 	//Christopher
+	
 	public static Connection getConnection() {
 		Connection conn = null;
 		try {

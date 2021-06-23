@@ -13,6 +13,9 @@ import dto.NcsDTO;
 
 public class NcsDAO implements IDAO {
 
+	//João S.
+	
+	
 	//Lucas
 	@Override
 	public void create() {
