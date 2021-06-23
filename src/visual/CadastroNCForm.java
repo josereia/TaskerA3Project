@@ -11,6 +11,9 @@ import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.SwingConstants;
+import java.awt.Font;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
