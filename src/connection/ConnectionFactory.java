@@ -13,15 +13,14 @@ public class ConnectionFactory {
 	private static final String URL = "jdbc:mysql://127.0.0.1:3306/tasker";
 	private static final String USER = "root";
 	private static final String PASSWORD = "";
-	//Christopher
-	
+
 	public static Connection getConnection() {
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
 
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, e);
+			JOptionPane.showMessageDialog(null, "Erro: " + e.getErrorCode() + ". " + e.getMessage());
 		}
 		return conn;
 	}
@@ -31,7 +30,7 @@ public class ConnectionFactory {
 			try {
 				conn.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Erro: " + e.getErrorCode() + ". " + e.getMessage());
 			}
 		}
 	}
@@ -42,7 +41,7 @@ public class ConnectionFactory {
 			try {
 				stmt.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Erro: " + e.getErrorCode() + ". " + e.getMessage());
 			}
 		}
 	}
@@ -53,7 +52,7 @@ public class ConnectionFactory {
 			try {
 				rs.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Erro: " + e.getErrorCode() + ". " + e.getMessage());
 			}
 		}
 	}

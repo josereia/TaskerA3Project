@@ -1,10 +1,10 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -13,17 +13,13 @@ import dto.NcsDTO;
 
 public class NcsDAO implements IDAO {
 
-	//João S.
-	
-	
-	//Lucas
+	// Lucas
 	@Override
 	public void create() {
-		// TODO Auto-generated method stub
 
 	}
 
-	//João
+	// João
 	@Override
 	public ResultSet read(int idempresa) {
 		Connection conn = ConnectionFactory.getConnection();
@@ -35,42 +31,57 @@ public class NcsDAO implements IDAO {
 			stmt.setInt(1, idempresa);
 
 			rs = stmt.executeQuery();
-			
+
 		} catch (SQLException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		} finally {
-			//ConnectionFactory.closeConnection(conn, stmt, rs);
+			// ConnectionFactory.closeConnection(conn, stmt, rs);
 		}
 		return rs;
 	}
-	// BIELZIN GAMEPLAYS XD
+
+	// Gabriel
 	@Override
-	public NcsDTO update(NcsDTO ncsdto) {
+	public void update() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public boolean update(NcsDTO ncsdto) {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
 
+		UsuarioDAO usuariodao = new UsuarioDAO();
+
 		try {
-			String sql = "UPDATE ncs SET salario=? WHERE cod_cargo = ?";
+			String sql = "UPDATE ncs SET `titulo`=?, `descricao`=?, `responsavel_idusuario`=?, `prazo`=?, `usuario_idusuario`=?, `ncStatus`=? WHERE idnc = ?";
 			stmt = conn.prepareStatement(sql);
-			stmt.setDouble(1, 2000);
-			stmt.setInt(2, 3);
+			stmt.setString(1, ncsdto.getTitulo());
+			stmt.setString(2, ncsdto.getDescricao());
+			stmt.setInt(3, usuariodao.read(ncsdto.getResponsavel()).getId());
+
+			Date date = Date.valueOf(ncsdto.getPrazo());
+			stmt.setDate(4, date);
+			
+			stmt.setInt(5, usuariodao.read(ncsdto.getUsuario()).getId());
+			stmt.setInt(6, 2);
+			stmt.setInt(7, ncsdto.getId());
+
 			if (stmt.executeUpdate() > 0) {
-				System.out.println("Dados alterados");
+				return true;
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-
 			ConnectionFactory.closeConnection(conn, stmt);
 		}
-		return ncsdto;
+
+		return false;
 	}
 
 	@Override
 	public void delete(int idnc) {
-		// TODO Auto-generated method stub
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -78,14 +89,15 @@ public class NcsDAO implements IDAO {
 			conn = ConnectionFactory.getConnection();
 			String sql = "DELETE FROM ncs WHERE idnc=?";
 			stmt = conn.prepareStatement(sql);
-			stmt.setInt(1,idnc);
-			if (stmt.executeUpdate()>0) {
-					JOptionPane.showMessageDialog(null,"Dados excluídos");
+			stmt.setInt(1, idnc);
+			if (stmt.executeUpdate() > 0) {
+				JOptionPane.showMessageDialog(null, "Dados excluídos");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			ConnectionFactory.closeConnection(conn, stmt, rs);;
+			ConnectionFactory.closeConnection(conn, stmt, rs);
+			;
 			try {
 				stmt.close();
 			} catch (SQLException e) {
@@ -94,17 +106,4 @@ public class NcsDAO implements IDAO {
 		}
 
 	}
-
-	@Override
-	public Object update(Object obj) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

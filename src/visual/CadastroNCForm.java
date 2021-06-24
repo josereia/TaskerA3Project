@@ -65,7 +65,7 @@ public class CadastroNCForm {
     private void initialize() {
         CadastroNCForm = new JFrame();
         CadastroNCForm.setBounds(100, 100, 600, 400);
-        CadastroNCForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        CadastroNCForm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //icone da janela
         CadastroNCForm.setIconImage(toolkit.getImage(this.getClass().getResource("/logo.png")));
         // faz com que a janela inicie no centro da tela
