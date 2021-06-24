@@ -14,9 +14,33 @@ import dto.NcsDTO;
 public class NcsDAO implements IDAO {
 
 	// Lucas
-	@Override
-	public void create() {
-
+	
+	public void create(NcsDTO ncsdto) {
+		Connection conn = ConnectionFactory.getConnection();
+		PreparedStatement stmt = null;
+		UsuarioDAO usuariodao = new UsuarioDAO();
+		try {
+			stmt = conn.prepareStatement(
+					"INSERT INTO ncs(titulo, descricao, responsavel_idusuario, prazo, dataCadastro, usuario_idusuario, ncStatus) VALUES(?,?,?,?,?,?,?)");
+			stmt.setString(1, ncsdto.getTitulo());
+			stmt.setString(2, ncsdto.getDescricao());
+			stmt.setInt(3, usuariodao.read(ncsdto.getResponsavel()).getId());
+			Date date = Date.valueOf(ncsdto.getPrazo());
+			stmt.setDate(4, date);
+			stmt.setDate(5, new Date(new java.util.Date().getTime()));
+			stmt.setInt(6, ncsdto.getId());
+			stmt.setInt(7, 4);
+			if(stmt.executeUpdate() > 0){
+				JOptionPane.showMessageDialog(null, "Dados inseridos com sucesso");
+			}else {
+				JOptionPane.showMessageDialog(null, "Dados inseridos sem sucesso");
+			}
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionFactory.closeConnection(conn, stmt);
+		}
 	}
 
 	// João
@@ -105,5 +129,11 @@ public class NcsDAO implements IDAO {
 			}
 		}
 
+	}
+
+	@Override
+	public void create() {
+		// TODO Auto-generated method stub
+		
 	}
 }

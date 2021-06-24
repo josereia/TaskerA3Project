@@ -5,17 +5,21 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
+import dto.NcsDTO;
 import dto.UsuarioDTO;
+
 import javax.swing.JTextField;
+
+import dao.NcsDAO;
+
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.SwingConstants;
-import java.awt.Font;
-import javax.swing.JTextArea;
-import javax.swing.UIManager;
+import javax.swing.JOptionPane;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CadastroNCForm {
 
@@ -26,6 +30,7 @@ public class CadastroNCForm {
     private JTextField Titulo;
     private JTextField Prazo;
     private JTextField Responsavel;
+    private JTextField Descricao;
 
     /**
      * Launch the application.
@@ -80,44 +85,61 @@ public class CadastroNCForm {
         Titulo.setBounds(200, 56, 200, 20);
         panel.add(Titulo);
         
+        //Nao consegui fazer a text box funcionar, caso alguem saiba fique a vontade para trocar
+        Descricao = new JTextField();
+        Descricao.setColumns(10);
+        Descricao.setBounds(165, 193, 270, 29);
+        panel.add(Descricao);
+        
         Prazo = new JTextField();
         Prazo.setColumns(10);
-        Prazo.setBounds(200, 249, 200, 20);
+        Prazo.setBounds(200, 140, 200, 20);
         panel.add(Prazo);
+        
+        Responsavel = new JTextField();
+        Responsavel.setColumns(10);
+        Responsavel.setBounds(200, 98, 200, 20);
+        panel.add(Responsavel);
         
         JLabel lblNewLabel_1 = new JLabel("T\u00EDtulo:*");
         lblNewLabel_1.setBounds(200, 43, 69, 14);
         panel.add(lblNewLabel_1);
         
         JLabel lblNewLabel_1_1 = new JLabel("Descri\u00E7\u00E3o:* ");
-        lblNewLabel_1_1.setBounds(200, 87, 69, 14);
+        lblNewLabel_1_1.setBounds(200, 180, 69, 14);
         panel.add(lblNewLabel_1_1);
         
         JLabel lblNewLabel_1_1_1 = new JLabel("Prazo: ");
-        lblNewLabel_1_1_1.setBounds(200, 235, 69, 14);
+        lblNewLabel_1_1_1.setBounds(200, 127, 69, 14);
         panel.add(lblNewLabel_1_1_1);
         
+        JLabel lblNewLabel_1_1_1_1 = new JLabel("Respons\u00E1vel:  ");
+        lblNewLabel_1_1_1_1.setBounds(200, 83, 89, 14);
+        panel.add(lblNewLabel_1_1_1_1);
+        
         JButton btnNewButton = new JButton("Enviar");
+        btnNewButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		cadastrar();
+        	}
+        });
         btnNewButton.setBounds(240, 280, 140, 23);
         panel.add(btnNewButton);
         
-        Responsavel = new JTextField();
-        Responsavel.setColumns(10);
-        Responsavel.setBounds(200, 204, 200, 20);
-        panel.add(Responsavel);
         
-        JLabel lblNewLabel_1_1_1_1 = new JLabel("Respons\u00E1vel:  ");
-        lblNewLabel_1_1_1_1.setBounds(200, 191, 89, 14);
-        panel.add(lblNewLabel_1_1_1_1);
-        
-        JTextArea textArea = new JTextArea();
-        textArea.setBorder(UIManager.getBorder("TextField.border"));
-        textArea.setBounds(200, 102, 200, 78);
-        panel.add(textArea);
     }
-
     public void setVisible(boolean b) {
         // TODO Auto-generated method stub
         CadastroNCForm.setVisible(b);
+    }
+    
+    public void cadastrar() {
+    	NcsDTO ncsdto = new NcsDTO();
+    	ncsdto.setTitulo(Titulo.getText());
+    	ncsdto.setDescricao(Descricao.getText());
+    	ncsdto.setResponsavel(Responsavel.getText());
+    	ncsdto.setPrazo(Prazo.getText());
+    	ncsdto.setId(usuariodto.getId());
+    	new NcsDAO().create(ncsdto);
     }
 }

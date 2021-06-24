@@ -5,11 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 import connection.ConnectionFactory;
 import dto.UsuarioDTO;
 
 public class UsuarioDAO implements IDAO {
-
+private UsuarioDTO usuariodto;
+	
+	
 	public UsuarioDTO checkLogin(UsuarioDTO usuariodto) {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
@@ -36,6 +40,7 @@ public class UsuarioDAO implements IDAO {
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt, rs);
 		}
+		this.usuariodto = usuariodto;
 		return usuariodto;
 	}
 
@@ -81,12 +86,13 @@ public class UsuarioDAO implements IDAO {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 
-		UsuarioDTO usuariodto = new UsuarioDTO();
+		EmpresaDAO empresadao = new EmpresaDAO();
 
 		try {
-			stmt = conn.prepareStatement("SELECT * FROM usuarios WHERE nome=?");
+			stmt = conn.prepareStatement("SELECT * FROM usuarios WHERE nome=? and empresa_idempresa =?");
 			stmt.setString(1, nome);
-
+			//stmt.setInt(2, empresadao.read(this.usuariodto.getEmpresa()));
+			JOptionPane.showMessageDialog(null, empresadao.read(this.usuariodto.getEmpresa()));
 			rs = stmt.executeQuery();
 			if (rs.next()) {
 				usuariodto.setId(rs.getInt("idusuario"));

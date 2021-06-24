@@ -106,7 +106,7 @@ public class PrincipalForm {
 		JButton btnNewButton_2 = new JButton("Inserir");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new CadastroNCForm().setVisible(true);
+				new CadastroNCForm(usuariodto).setVisible(true);
 			}
 		});
 
