@@ -19,12 +19,13 @@ import java.awt.Dimension;
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.JButton;
 
 import dao.NcsDAO;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
 public class PrincipalForm {
@@ -51,20 +52,12 @@ public class PrincipalForm {
 	}
 
 	public PrincipalForm() {
-		if (usuariodto == null) {
-			new LoginForm().setVisible(true);
-		} else {
-			initialize();
-		}
+
 	}
 
 	public PrincipalForm(UsuarioDTO usuariodto) {
-		if (usuariodto == null) {
-			new LoginForm().setVisible(true);
-		} else {
-			this.usuariodto = usuariodto;
-			initialize();
-		}
+		this.usuariodto = usuariodto;
+		initialize();
 	}
 
 	/**
@@ -103,11 +96,18 @@ public class PrincipalForm {
 
 		JButton btnNewButton_1 = new JButton("Alterar");
 
+		CadastroNCs cadastroncs = new CadastroNCs(frmPrincipal, usuariodto);
 		JButton btnNewButton_2 = new JButton("Inserir");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new CadastroNCForm(usuariodto).setVisible(true);
+				cadastroncs.setVisible(true);
 			}
+		});
+		cadastroncs.addWindowListener(new WindowAdapter() {
+		    @Override
+		    public void windowClosed(WindowEvent e) {
+		    	 carregarTabela();
+		    }
 		});
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -115,32 +115,8 @@ public class PrincipalForm {
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		carregarTabela();
-		table.getModel().addTableModelListener(new TableModelListener() {
-			@Override
-			public void tableChanged(TableModelEvent arg0) {
-
-				try {
-					NcsDTO ncsdto = new NcsDTO();
-
-					ncsdto.setId(
-							Integer.parseInt(String.valueOf(table.getModel().getValueAt(table.getSelectedRow(), 0))));
-					ncsdto.setTitulo((String) table.getModel().getValueAt(table.getSelectedRow(), 1));
-					ncsdto.setDescricao((String) table.getModel().getValueAt(table.getSelectedRow(), 2));
-					ncsdto.setResponsavel((String) table.getModel().getValueAt(table.getSelectedRow(), 3));
-					ncsdto.setPrazo(table.getModel().getValueAt(table.getSelectedRow(), 4).toString());
-					ncsdto.setUsuario((String) table.getModel().getValueAt(table.getSelectedRow(), 6));
-					ncsdto.setStatus((String) table.getModel().getValueAt(table.getSelectedRow(), 7));
-
-					if (new NcsDAO().update(ncsdto)) {
-						JOptionPane.showMessageDialog(null, "Dados alterados!");
-					}
-
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Problema ao alterar dados!" + " - " + e.getMessage());
-					e.printStackTrace();
-				}
-			}
-		});
+		
+		
 
 		GroupLayout groupLayout = new GroupLayout(frmPrincipal.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -170,8 +146,34 @@ public class PrincipalForm {
 	}
 
 	// métodos
-	private void carregarTabela() {
+	public void carregarTabela() {
 		table.setModel(DbUtils.resultSetToTableModel(new NcsDAO().read(usuariodto.getEmpresa())));
+		
+		table.getModel().addTableModelListener(new TableModelListener() {
+			@Override
+			public void tableChanged(TableModelEvent arg0) {
+
+				try {
+					NcsDTO ncsdto = new NcsDTO();
+
+					ncsdto.setId(
+							Integer.parseInt(String.valueOf(table.getModel().getValueAt(table.getSelectedRow(), 0))));
+					ncsdto.setTitulo((String) table.getModel().getValueAt(table.getSelectedRow(), 1));
+					ncsdto.setDescricao((String) table.getModel().getValueAt(table.getSelectedRow(), 2));
+					ncsdto.setResponsavel((String) table.getModel().getValueAt(table.getSelectedRow(), 3));
+					ncsdto.setPrazo(table.getModel().getValueAt(table.getSelectedRow(), 4).toString());
+					ncsdto.setUsuario((String) table.getModel().getValueAt(table.getSelectedRow(), 6));
+					ncsdto.setStatus((String) table.getModel().getValueAt(table.getSelectedRow(), 7));
+					ncsdto.setUsuarioEmpresa(usuariodto.getEmpresa());
+
+					new NcsDAO().update(ncsdto);
+
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Problema ao alterar dados!" + " - " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 }

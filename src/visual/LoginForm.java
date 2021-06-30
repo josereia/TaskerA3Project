@@ -8,7 +8,6 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import dao.UsuarioDAO;
@@ -126,16 +125,16 @@ public class LoginForm {
 	}
 
 	// métodos
+	
 	// método de verificação de login
 	public void login() {
 		UsuarioDTO usuariodto = new UsuarioDTO();
 		usuariodto.setLogin(text_login.getText());
 		usuariodto.setSenha(String.valueOf(text_senha.getPassword()));
-		if (new UsuarioDAO().checkLogin(usuariodto) != null) {
+
+		if (new UsuarioDAO().checkLogin(usuariodto).getIdUsuario() != 0) {
 			new PrincipalForm(usuariodto).setVisible(true);
 			frmLogin.dispose();
-		} else {
-			JOptionPane.showMessageDialog(frmLogin, "Login ou senha incorretos!");
 		}
 	}
 }

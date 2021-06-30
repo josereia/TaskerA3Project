@@ -11,9 +11,7 @@ import connection.ConnectionFactory;
 import dto.UsuarioDTO;
 
 public class UsuarioDAO implements IDAO {
-private UsuarioDTO usuariodto;
-	
-	
+
 	public UsuarioDTO checkLogin(UsuarioDTO usuariodto) {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
@@ -26,21 +24,22 @@ private UsuarioDTO usuariodto;
 
 			rs = stmt.executeQuery();
 			if (rs.next()) {
-				usuariodto.setId(rs.getInt("idusuario"));
+				usuariodto.setIdUsuario(rs.getInt("idusuario"));
 				usuariodto.setNome(rs.getString("nome"));
 				usuariodto.setSobrenome(rs.getString("sobrenome"));
 				usuariodto.setEmail(rs.getString("email"));
-				usuariodto.setEmpresa(rs.getInt("empresa_idempresa"));
+				usuariodto.setEmpresa(new EmpresaDAO().read(rs.getInt("empresa_idempresa")).getNomeFantasia());
 				usuariodto.setAcesso(rs.getBoolean("acesso"));
 			} else {
-				return null;
+				throw new SQLException("Login ou senha incorretos.");
 			}
 		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,  e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt, rs);
 		}
-		this.usuariodto = usuariodto;
+
 		return usuariodto;
 	}
 
@@ -49,7 +48,7 @@ private UsuarioDTO usuariodto;
 
 	}
 
-	//João
+	// João
 	@Override
 	public UsuarioDTO read(int id) {
 		Connection conn = ConnectionFactory.getConnection();
@@ -64,50 +63,56 @@ private UsuarioDTO usuariodto;
 
 			rs = stmt.executeQuery();
 			if (rs.next()) {
-				usuariodto.setId(rs.getInt("idusuario"));
+				usuariodto.setIdUsuario(rs.getInt("idusuario"));
 				usuariodto.setNome(rs.getString("nome"));
 				usuariodto.setSobrenome(rs.getString("sobrenome"));
 				usuariodto.setEmail(rs.getString("email"));
-				usuariodto.setEmpresa(rs.getInt("empresa_idempresa"));
+				usuariodto.setEmpresa(new EmpresaDAO().read(rs.getInt("empresa_idempresa")).getNomeFantasia());
 				usuariodto.setAcesso(rs.getBoolean("acesso"));
 			} else {
-				return null;
+				throw new SQLException("Falha ao obter dados do usuário.");
 			}
 		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,  e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
-			return null;
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt, rs);
 		}
+
 		return usuariodto;
 	}
-	public UsuarioDTO read(String nome) {
+
+	public UsuarioDTO read(String nome, String empresa) {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 
-		EmpresaDAO empresadao = new EmpresaDAO();
+		UsuarioDTO usuariodto = new UsuarioDTO();
 
 		try {
-			stmt = conn.prepareStatement("SELECT * FROM usuarios WHERE nome=? and empresa_idempresa =?");
+			String sql = "SELECT * FROM usuarios WHERE nome =? AND empresa_idempresa =?";
+			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, nome);
-			//stmt.setInt(2, empresadao.read(this.usuariodto.getEmpresa()));
-			JOptionPane.showMessageDialog(null, empresadao.read(this.usuariodto.getEmpresa()));
+			stmt.setInt(2, new EmpresaDAO().read(empresa).getIdEmpresa());
+
 			rs = stmt.executeQuery();
 			if (rs.next()) {
-				usuariodto.setId(rs.getInt("idusuario"));
+				usuariodto.setIdUsuario(rs.getInt("idusuario"));
 				usuariodto.setNome(rs.getString("nome"));
 				usuariodto.setSobrenome(rs.getString("sobrenome"));
 				usuariodto.setEmail(rs.getString("email"));
+				usuariodto.setEmpresa(new EmpresaDAO().read(rs.getInt("empresa_idempresa")).getNomeFantasia());
 				usuariodto.setAcesso(rs.getBoolean("acesso"));
-				usuariodto.setEmpresa(rs.getInt("empresa_idempresa"));
+			}else {
+				throw new SQLException("Usuário não encontrado.");
 			}
 		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,  e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
-			return null;
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt, rs);
 		}
+
 		return usuariodto;
 	}
 
@@ -119,7 +124,6 @@ private UsuarioDTO usuariodto;
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 }

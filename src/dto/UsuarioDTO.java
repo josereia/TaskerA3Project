@@ -1,11 +1,11 @@
 package dto;
 
 public class UsuarioDTO {
-	private int id;
+	private int idusuario;
 	private String nome;
 	private String sobrenome;
 	private String email;
-	private int empresa;
+	private String empresa;
 	private boolean acesso;
 	private String login;
 	private String senha;
@@ -14,9 +14,9 @@ public class UsuarioDTO {
 
 	}
 
-	public UsuarioDTO(int id, String nome, String sobrenome, String email, int empresa, boolean acesso, String login,
+	public UsuarioDTO(int id, String nome, String sobrenome, String email, String empresa, boolean acesso, String login,
 			String senha) {
-		this.id = id;
+		this.idusuario = id;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
 		this.email = email;
@@ -26,12 +26,12 @@ public class UsuarioDTO {
 		this.senha = senha;
 	}
 
-	public int getId() {
-		return id;
+	public int getIdUsuario() {
+		return idusuario;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setIdUsuario(int id) {
+		this.idusuario = id;
 	}
 
 	public String getNome() {
@@ -58,11 +58,11 @@ public class UsuarioDTO {
 		this.email = email;
 	}
 
-	public int getEmpresa() {
+	public String getEmpresa() {
 		return empresa;
 	}
 
-	public void setEmpresa(int empresa) {
+	public void setEmpresa(String empresa) {
 		this.empresa = empresa;
 	}
 

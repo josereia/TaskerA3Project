@@ -8,6 +8,7 @@ public class NcsDTO {
 	private String prazo;
 	private String dataCadastro;
 	private String usuario;
+	private String usuarioEmpresa;
 	private String status;
 
 	public int getId() {
@@ -72,6 +73,14 @@ public class NcsDTO {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getUsuarioEmpresa() {
+		return usuarioEmpresa;
+	}
+
+	public void setUsuarioEmpresa(String usuarioEmpresa) {
+		this.usuarioEmpresa = usuarioEmpresa;
 	}
 
 }
