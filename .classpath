@@ -7,11 +7,11 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/joaol/OneDrive/Faculdade/Bibliotecas Java/mysql-connector-java-8.0.25.jar">
+	<classpathentry kind="lib" path="C:/Users/profe/OneDrive/Área de Trabalho/mysql-connector-java-8.0.25/mysql-connector-java-8.0.25.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/joaol/OneDrive/Faculdade/Bibliotecas Java/rs2xml.jar"/>
+	<classpathentry kind="lib" path="C:/Users/profe/Downloads/rs2xml/rs2xml/rs2xml.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
