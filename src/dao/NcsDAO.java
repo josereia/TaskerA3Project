@@ -14,13 +14,7 @@ import net.proteanit.sql.DbUtils;
 
 public class NcsDAO implements IDAO {
 
-	// Lucas
-	@Override
-	public void create() {
-		// TODO Auto-generated method stub
-
-	}
-
+	// Lucas 
 	public void create(NcsDTO ncsdto) {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
@@ -45,7 +39,7 @@ public class NcsDAO implements IDAO {
 			if (stmt.executeUpdate() > 0) {
 				JOptionPane.showMessageDialog(null, "NC cadastrada com sucesso!");
 			} else {
-				throw new SQLException("NC não cadastrada.");
+				throw new SQLException("NC nÃ£o cadastrada.");
 			}
 
 		} catch (SQLException e) {
@@ -56,7 +50,7 @@ public class NcsDAO implements IDAO {
 		}
 	}
 
-	// João Sereia
+	// JoÃ£o Sereia
 	@Override
 	public ResultSet read(int idempresa) {
 		Connection conn = ConnectionFactory.getConnection();
@@ -65,7 +59,7 @@ public class NcsDAO implements IDAO {
 
 		try {
 			stmt = conn.prepareStatement(
-					"SELECT nc.idncs as `ID`, nc.titulo as `Título`, nc.descricao `Descrição`, responsavel.nome as `Responsável`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `Usuário`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.usuario_empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.usuario_empresa_idempresa = ? ORDER BY nc.prazo");
+					"SELECT nc.idncs as `ID`, nc.titulo as `TÃ­tulo`, nc.descricao `DescriÃ§Ã£o`, responsavel.nome as `ResponsÃ¡vel`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `UsuÃ¡rio`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.usuario_empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.usuario_empresa_idempresa = ? ORDER BY nc.prazo");
 			stmt.setInt(1, idempresa);
 
 			rs = stmt.executeQuery();
@@ -89,7 +83,7 @@ public class NcsDAO implements IDAO {
 
 		try {
 			stmt = conn.prepareStatement(
-					"SELECT nc.idncs as `ID`, nc.titulo as `Título`, nc.descricao `Descrição`, responsavel.nome as `Responsável`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `Usuário`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.usuario_empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.usuario_empresa_idempresa = ? ORDER BY nc.prazo");
+					"SELECT nc.idncs as `ID`, nc.titulo as `TÃ­tulo`, nc.descricao `DescriÃ§Ã£o`, responsavel.nome as `ResponsÃ¡vel`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `UsuÃ¡rio`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.usuario_empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.usuario_empresa_idempresa = ? ORDER BY nc.prazo");
 			stmt.setInt(1, new EmpresaDAO().read(nomeFantasia).getIdEmpresa());
 
 			rs = stmt.executeQuery();
@@ -112,7 +106,7 @@ public class NcsDAO implements IDAO {
 		return null;
 	}
 
-	// Gabriel/João
+	// Gabriel/JoÃ£o
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
@@ -168,7 +162,7 @@ public class NcsDAO implements IDAO {
 			stmt.setInt(1, idnc);
 
 			if (stmt.executeUpdate() > 0) {
-				JOptionPane.showMessageDialog(null, "NC excluída!");
+				JOptionPane.showMessageDialog(null, "NC excluÃ­da!");
 			} else {
 				throw new SQLException("Falha ao exluir NC.");
 			}
