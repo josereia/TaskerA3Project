@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import dao.NcsDAO;
+import controller.Funcionario;
 import dto.NcsDTO;
 import dto.UsuarioDTO;
 import javax.swing.JLabel;
@@ -144,6 +144,7 @@ public class CadastroNCs extends JDialog {
 		ncsdto.setPrazo(txt_prazo.getText());
 		ncsdto.setUsuario(usuariodto.getNome());
 		ncsdto.setUsuarioEmpresa(usuariodto.getEmpresa());
-		new NcsDAO().create(ncsdto);
+		
+		new Funcionario().cadastrarNC(ncsdto);
 	}
 }

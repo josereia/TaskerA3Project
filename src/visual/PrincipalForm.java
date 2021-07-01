@@ -28,6 +28,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
 public class PrincipalForm {
+	
+	//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 	private JFrame frmPrincipal;
 	private UsuarioDTO usuariodto;
@@ -101,7 +103,6 @@ public class PrincipalForm {
 							Integer.parseInt(String.valueOf(table.getModel().getValueAt(table.getSelectedRow(), 0))));
 					carregarTabela();
 				}
-
 			}
 		});
 
