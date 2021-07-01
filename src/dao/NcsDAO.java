@@ -65,7 +65,7 @@ public class NcsDAO implements IDAO {
 
 		try {
 			stmt = conn.prepareStatement(
-					"SELECT nc.idncs as `ID`, nc.titulo as `Título`, nc.descricao `Descrição`, responsavel.nome as `Responsável`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `Usuário`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.usuario_empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.usuario_empresa_idempresa = ?");
+					"SELECT nc.idncs as `ID`, nc.titulo as `Título`, nc.descricao `Descrição`, responsavel.nome as `Responsável`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `Usuário`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.usuario_empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.usuario_empresa_idempresa = ? ORDER BY nc.prazo");
 			stmt.setInt(1, idempresa);
 
 			rs = stmt.executeQuery();
@@ -89,7 +89,7 @@ public class NcsDAO implements IDAO {
 
 		try {
 			stmt = conn.prepareStatement(
-					"SELECT nc.idncs as `ID`, nc.titulo as `Título`, nc.descricao `Descrição`, responsavel.nome as `Responsável`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `Usuário`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.usuario_empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.usuario_empresa_idempresa = ?");
+					"SELECT nc.idncs as `ID`, nc.titulo as `Título`, nc.descricao `Descrição`, responsavel.nome as `Responsável`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `Usuário`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.usuario_empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.usuario_empresa_idempresa = ? ORDER BY nc.prazo");
 			stmt.setInt(1, new EmpresaDAO().read(nomeFantasia).getIdEmpresa());
 
 			rs = stmt.executeQuery();
@@ -163,7 +163,7 @@ public class NcsDAO implements IDAO {
 		ResultSet rs = null;
 
 		try {
-			String sql = "DELETE FROM ncs WHERE idnc=?";
+			String sql = "DELETE FROM ncs WHERE idncs=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, idnc);
 

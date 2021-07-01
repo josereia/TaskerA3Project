@@ -92,6 +92,12 @@ public class PrincipalForm {
 		mnAdm.add(mntmGerFuncionarios);
 
 		JButton btn_excluir = new JButton("Excluir");
+		btn_excluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new NcsDAO().delete(Integer.parseInt(String.valueOf(table.getModel().getValueAt(table.getSelectedRow(), 0))));
+				carregarTabela();
+			}
+		});
 
 		JButton btnNewButton_1 = new JButton("Alterar");
 
