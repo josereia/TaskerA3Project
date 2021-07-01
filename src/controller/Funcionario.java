@@ -17,7 +17,13 @@ public class Funcionario {
 		new NcsDAO().create(ncsdto);
 	}
 	
+	public void excluirNC(NcsDTO ncsdto) {
+		new NcsDAO().create(ncsdto);
+	}
 	
+	public void alterarNC(NcsDTO ncsdto) {
+		new NcsDAO().create(ncsdto);
+	}
 	
 	
 	

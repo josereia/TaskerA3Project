@@ -30,6 +30,7 @@ import java.awt.event.ActionEvent;
 public class PrincipalForm {
 	
 	//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+	//BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
 
 	private JFrame frmPrincipal;
 	private UsuarioDTO usuariodto;
