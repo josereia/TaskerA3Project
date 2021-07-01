@@ -6,8 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
+
 import connection.ConnectionFactory;
 import dto.NcsDTO;
+import net.proteanit.sql.DbUtils;
 
 public class NcsDAO implements IDAO {
 
@@ -73,13 +76,13 @@ public class NcsDAO implements IDAO {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		} finally {
-			// ConnectionFactory.closeConnection(conn, stmt, rs);
+			ConnectionFactory.closeConnection(conn, stmt, rs);
 		}
 
 		return rs;
 	}
 
-	public ResultSet read(String nomeFantasia) {
+	public TableModel read(String nomeFantasia) {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -90,18 +93,23 @@ public class NcsDAO implements IDAO {
 			stmt.setInt(1, new EmpresaDAO().read(nomeFantasia).getIdEmpresa());
 
 			rs = stmt.executeQuery();
+			
+			
+
 			if (!rs.next()) {
 				throw new SQLException("Falha ao obter lista de NCs.");
+			}else {
+				return DbUtils.resultSetToTableModel(rs);
 			}
 
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		} finally {
-			// ConnectionFactory.closeConnection(conn, stmt, rs);
+			ConnectionFactory.closeConnection(conn, stmt);
 		}
-
-		return rs;
+		
+		return null;
 	}
 
 	// Gabriel/João

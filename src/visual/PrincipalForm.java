@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 
 import dto.NcsDTO;
 import dto.UsuarioDTO;
-import net.proteanit.sql.DbUtils;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -147,7 +146,7 @@ public class PrincipalForm {
 
 	// métodos
 	public void carregarTabela() {
-		table.setModel(DbUtils.resultSetToTableModel(new NcsDAO().read(usuariodto.getEmpresa())));
+		table.setModel(new NcsDAO().read(usuariodto.getEmpresa()));
 		
 		table.getModel().addTableModelListener(new TableModelListener() {
 			@Override
