@@ -94,8 +94,14 @@ public class PrincipalForm {
 		JButton btn_excluir = new JButton("Excluir");
 		btn_excluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new NcsDAO().delete(Integer.parseInt(String.valueOf(table.getModel().getValueAt(table.getSelectedRow(), 0))));
-				carregarTabela();
+				int reply = JOptionPane.showConfirmDialog(null, "Quer realmente exluir?", "Excluir NC",
+						JOptionPane.YES_NO_OPTION);
+				if (reply == JOptionPane.YES_OPTION) {
+					new NcsDAO().delete(
+							Integer.parseInt(String.valueOf(table.getModel().getValueAt(table.getSelectedRow(), 0))));
+					carregarTabela();
+				}
+
 			}
 		});
 
@@ -109,10 +115,10 @@ public class PrincipalForm {
 			}
 		});
 		cadastroncs.addWindowListener(new WindowAdapter() {
-		    @Override
-		    public void windowClosed(WindowEvent e) {
-		    	 carregarTabela();
-		    }
+			@Override
+			public void windowClosed(WindowEvent e) {
+				carregarTabela();
+			}
 		});
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -120,8 +126,6 @@ public class PrincipalForm {
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		carregarTabela();
-		
-		
 
 		GroupLayout groupLayout = new GroupLayout(frmPrincipal.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -153,7 +157,7 @@ public class PrincipalForm {
 	// métodos
 	public void carregarTabela() {
 		table.setModel(new NcsDAO().read(usuariodto.getEmpresa()));
-		
+
 		table.getModel().addTableModelListener(new TableModelListener() {
 			@Override
 			public void tableChanged(TableModelEvent arg0) {
