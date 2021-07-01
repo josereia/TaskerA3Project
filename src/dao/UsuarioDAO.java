@@ -43,12 +43,38 @@ public class UsuarioDAO implements IDAO {
 		return usuariodto;
 	}
 
-	@Override
-	public void create() {
+	
+	public void create(UsuarioDTO usuariodto) {
+		Connection conn = ConnectionFactory.getConnection();
+		PreparedStatement stmt = null;
 
+		try {
+			stmt = conn.prepareStatement(
+					"INSERT INTO usuarios(nome, sobrenome, email, acesso, login, senha, empresa_idempresa) VALUES(?,?,?,?,?,?,?)");
+
+			stmt.setString(1, usuariodto.getNome());
+			stmt.setString(2, usuariodto.getSobrenome());
+			stmt.setString(3, usuariodto.getEmail());
+			stmt.setInt(4, 1);
+			stmt.setString(5, usuariodto.getLogin());
+			stmt.setString(6, usuariodto.getSenha());
+			stmt.setInt(7, new EmpresaDAO().read(usuariodto.getEmpresa()).getIdEmpresa());
+
+			if (stmt.executeUpdate() > 0) {
+				JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
+			} else {
+				throw new SQLException("Usuário não cadastrado.");
+			}
+ 
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} finally {
+			ConnectionFactory.closeConnection(conn, stmt);
+		}
 	}
 
-	// Jo�o
+	// João
 	@Override
 	public UsuarioDTO read(int id) {
 		Connection conn = ConnectionFactory.getConnection();
@@ -70,7 +96,7 @@ public class UsuarioDAO implements IDAO {
 				usuariodto.setEmpresa(new EmpresaDAO().read(rs.getInt("empresa_idempresa")).getNomeFantasia());
 				usuariodto.setAcesso(rs.getBoolean("acesso"));
 			} else {
-				throw new SQLException("Falha ao obter dados do usu�rio.");
+				throw new SQLException("Falha ao obter dados do usuário.");
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null,  e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
@@ -104,7 +130,7 @@ public class UsuarioDAO implements IDAO {
 				usuariodto.setEmpresa(new EmpresaDAO().read(rs.getInt("empresa_idempresa")).getNomeFantasia());
 				usuariodto.setAcesso(rs.getBoolean("acesso"));
 			}else {
-				throw new SQLException("Usu�rio n�o encontrado.");
+				throw new SQLException("Usuário não encontrado.");
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null,  e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
