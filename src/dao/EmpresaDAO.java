@@ -13,12 +13,6 @@ import dto.EmpresaDTO;
 public class EmpresaDAO implements IDAO {
 
 	@Override
-	public void create() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public EmpresaDTO read(int id) {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
