@@ -6,7 +6,7 @@ public class UsuarioDTO {
 	private String sobrenome;
 	private String email;
 	private String empresa;
-	private boolean acesso;
+	private int acesso;
 	private String login;
 	private String senha;
 
@@ -14,7 +14,7 @@ public class UsuarioDTO {
 
 	}
 
-	public UsuarioDTO(int id, String nome, String sobrenome, String email, String empresa, boolean acesso, String login,
+	public UsuarioDTO(int id, String nome, String sobrenome, String email, String empresa, int acesso, String login,
 			String senha) {
 		this.idusuario = id;
 		this.nome = nome;
@@ -66,11 +66,11 @@ public class UsuarioDTO {
 		this.empresa = empresa;
 	}
 
-	public boolean isAcesso() {
+	public int getAcesso() {
 		return acesso;
 	}
 
-	public void setAcesso(boolean acesso) {
+	public void setAcesso(int acesso) {
 		this.acesso = acesso;
 	}
 

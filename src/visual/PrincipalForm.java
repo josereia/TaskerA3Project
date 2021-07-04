@@ -28,9 +28,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
 public class PrincipalForm {
-	
-	//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-	//BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
 
 	private JFrame frmPrincipal;
 	private UsuarioDTO usuariodto;
@@ -92,7 +89,20 @@ public class PrincipalForm {
 		menuBar.add(mnAdm);
 
 		JMenuItem mntmGerFuncionarios = new JMenuItem("Ger. Funcion\u00E1rios");
+		mntmGerFuncionarios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new ListaUsers(usuariodto).setVisible(true);
+			}
+		});
 		mnAdm.add(mntmGerFuncionarios);
+
+		JMenu mnNewMenu_1 = new JMenu("Sobre");
+		mnNewMenu_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new SobreForm().setVisible(true);
+			}
+		});
+		menuBar.add(mnNewMenu_1);
 
 		JButton btn_excluir = new JButton("Excluir");
 		btn_excluir.addActionListener(new ActionListener() {
@@ -146,7 +156,7 @@ public class PrincipalForm {
 						.addGap(15)));
 		frmPrincipal.getContentPane().setLayout(groupLayout);
 
-		if (usuariodto.isAcesso() == false) {
+		if (usuariodto.getAcesso() != 1) {
 			mnAdm.setVisible(false);
 			btn_excluir.setEnabled(false);
 		}
@@ -186,5 +196,4 @@ public class PrincipalForm {
 			}
 		});
 	}
-
 }

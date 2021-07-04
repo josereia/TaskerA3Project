@@ -12,6 +12,31 @@ import dto.EmpresaDTO;
 
 public class EmpresaDAO implements IDAO {
 
+	public void create(EmpresaDTO empresadto) {
+		Connection conn = ConnectionFactory.getConnection();
+		PreparedStatement stmt = null;
+
+		try {
+			stmt = conn.prepareStatement(
+					"INSERT INTO empresas(nomeFantasia, cnpj) VALUES(?,?)");
+
+			stmt.setString(1, empresadto.getNomeFantasia());
+			stmt.setString(2, empresadto.getCnpj());
+
+			if (stmt.executeUpdate() > 0) {
+				JOptionPane.showMessageDialog(null, "Empresa cadastrada com sucesso!");
+			} else {
+				throw new SQLException("Empresa não cadastrado.");
+			}
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} finally {
+			ConnectionFactory.closeConnection(conn, stmt);
+		}
+	}
+	
 	@Override
 	public EmpresaDTO read(int id) {
 		Connection conn = ConnectionFactory.getConnection();

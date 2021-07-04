@@ -8,6 +8,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import dao.UsuarioDAO;
@@ -89,6 +90,14 @@ public class LoginForm {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					login();
+				}
+				if (e.getKeyCode() == KeyEvent.VK_F1) {
+					String numero = JOptionPane.showInputDialog("Digite a senha:");
+					if (numero.equals("1234")) {
+						new CadastroUsers().setVisible(true);
+					}else {
+						JOptionPane.showMessageDialog(null, "Senha incorreta!");
+					}
 				}
 			}
 		});

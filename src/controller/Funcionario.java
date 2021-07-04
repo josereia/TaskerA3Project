@@ -26,13 +26,6 @@ public class Funcionario {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
 	public int getIdusuario() {
 		return idusuario;
 	}
