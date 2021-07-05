@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import connection.ConnectionFactory;
 import dto.EmpresaDTO;
 
-public class EmpresaDAO implements IDAO {
+public class EmpresaDAO {
 
 	public void create(EmpresaDTO empresadto) {
 		Connection conn = ConnectionFactory.getConnection();
@@ -36,8 +36,7 @@ public class EmpresaDAO implements IDAO {
 			ConnectionFactory.closeConnection(conn, stmt);
 		}
 	}
-	
-	@Override
+
 	public EmpresaDTO read(int id) {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
@@ -96,13 +95,6 @@ public class EmpresaDAO implements IDAO {
 		return empresadto;
 	}
 
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void delete(int id) {
 		// TODO Auto-generated method stub
 

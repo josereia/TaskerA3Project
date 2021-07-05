@@ -18,6 +18,10 @@ import java.awt.Dimension;
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+
+import controller.Administrador;
+import controller.Funcionario;
+
 import javax.swing.JButton;
 
 import dao.NcsDAO;
@@ -31,9 +35,10 @@ public class PrincipalForm {
 
 	private JFrame frmPrincipal;
 	private UsuarioDTO usuariodto;
+	private Funcionario funcionario;
+	private JTable table;
 	// toolkit
 	Toolkit toolkit = Toolkit.getDefaultToolkit();
-	private JTable table;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -51,11 +56,12 @@ public class PrincipalForm {
 	}
 
 	public PrincipalForm() {
-
+		initialize();
 	}
 
 	public PrincipalForm(UsuarioDTO usuariodto) {
 		this.usuariodto = usuariodto;
+		this.funcionario = new Funcionario(usuariodto);
 		initialize();
 	}
 
@@ -65,7 +71,7 @@ public class PrincipalForm {
 	private void initialize() {
 		frmPrincipal = new JFrame();
 		frmPrincipal.setMinimumSize(new Dimension(640, 400));
-		frmPrincipal.setTitle("Principal");
+		frmPrincipal.setTitle("Gerenciamento de NCs");
 		// icone da janela
 		frmPrincipal.setIconImage(toolkit.getImage(this.getClass().getResource("/logo.png")));
 		frmPrincipal.setBounds(100, 100, 640, 400);
@@ -83,6 +89,11 @@ public class PrincipalForm {
 		mnNewMenu.add(mntmNewMenuItem_2);
 
 		JMenuItem mntmSair = new JMenuItem("Sair");
+		mntmSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				logoff();
+			}
+		});
 		mnNewMenu.add(mntmSair);
 
 		JMenu mnAdm = new JMenu("Administrador");
@@ -107,10 +118,10 @@ public class PrincipalForm {
 		JButton btn_excluir = new JButton("Excluir");
 		btn_excluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int reply = JOptionPane.showConfirmDialog(null, "Quer realmente exluir?", "Excluir NC",
+				int resposta = JOptionPane.showConfirmDialog(null, "Quer realmente exluir?", "Excluir NC",
 						JOptionPane.YES_NO_OPTION);
-				if (reply == JOptionPane.YES_OPTION) {
-					new NcsDAO().delete(
+				if (resposta == JOptionPane.YES_OPTION) {
+					new Administrador(usuariodto).excluirNC(
 							Integer.parseInt(String.valueOf(table.getModel().getValueAt(table.getSelectedRow(), 0))));
 					carregarTabela();
 				}
@@ -119,17 +130,18 @@ public class PrincipalForm {
 
 		JButton btnNewButton_1 = new JButton("Alterar");
 
-		CadastroNCs cadastroncs = new CadastroNCs(frmPrincipal, usuariodto);
 		JButton btnNewButton_2 = new JButton("Inserir");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				CadastroNCs cadastroncs = new CadastroNCs(frmPrincipal, usuariodto);
 				cadastroncs.setVisible(true);
-			}
-		});
-		cadastroncs.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosed(WindowEvent e) {
-				carregarTabela();
+
+				cadastroncs.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosed(WindowEvent e) {
+						carregarTabela();
+					}
+				});
 			}
 		});
 
@@ -156,19 +168,15 @@ public class PrincipalForm {
 						.addGap(15)));
 		frmPrincipal.getContentPane().setLayout(groupLayout);
 
-		if (usuariodto.getAcesso() != 1) {
-			mnAdm.setVisible(false);
-			btn_excluir.setEnabled(false);
-		}
-	}
-
-	public void setVisible(boolean b) {
-		frmPrincipal.setVisible(b);
+		/*
+		 * if (usuariodto.getAcesso() < 2) { mnAdm.setVisible(false);
+		 * btn_excluir.setEnabled(false); }
+		 */
 	}
 
 	// métodos
-	public void carregarTabela() {
-		table.setModel(new NcsDAO().read(usuariodto.getEmpresa()));
+	private void carregarTabela() {
+		table.setModel(new NcsDAO().read(funcionario.getEmpresa()));
 
 		table.getModel().addTableModelListener(new TableModelListener() {
 			@Override
@@ -185,9 +193,8 @@ public class PrincipalForm {
 					ncsdto.setPrazo(table.getModel().getValueAt(table.getSelectedRow(), 4).toString());
 					ncsdto.setUsuario((String) table.getModel().getValueAt(table.getSelectedRow(), 6));
 					ncsdto.setStatus((String) table.getModel().getValueAt(table.getSelectedRow(), 7));
-					ncsdto.setUsuarioEmpresa(usuariodto.getEmpresa());
 
-					new NcsDAO().update(ncsdto);
+					funcionario.alterarNC(ncsdto);
 
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "Problema ao alterar dados!" + " - " + e.getMessage());
@@ -195,5 +202,14 @@ public class PrincipalForm {
 				}
 			}
 		});
+	}
+	
+	private void logoff() {
+		frmPrincipal.dispose();
+		new LoginForm().setVisible(true);
+	}
+
+	public void setVisible(boolean b) {
+		frmPrincipal.setVisible(b);
 	}
 }

@@ -12,7 +12,7 @@ import connection.ConnectionFactory;
 import dto.NcsDTO;
 import net.proteanit.sql.DbUtils;
 
-public class NcsDAO implements IDAO {
+public class NcsDAO {
 
 	// Lucas 
 	public void create(NcsDTO ncsdto) {
@@ -21,7 +21,7 @@ public class NcsDAO implements IDAO {
 
 		try {
 			stmt = conn.prepareStatement(
-					"INSERT INTO ncs(titulo, descricao, responsavel_idusuario, prazo, dataCadastro, usuario_idusuario, usuario_empresa_idempresa, ncStatus_idncStatus) VALUES(?,?,?,?,?,?,?,?)");
+					"INSERT INTO ncs(titulo, descricao, responsavel_idusuario, prazo, dataCadastro, usuario_idusuario, empresa_idempresa, ncStatus_idncStatus) VALUES(?,?,?,?,?,?,?,?)");
 
 			stmt.setString(1, ncsdto.getTitulo());
 			stmt.setString(2, ncsdto.getDescricao());
@@ -39,7 +39,7 @@ public class NcsDAO implements IDAO {
 			if (stmt.executeUpdate() > 0) {
 				JOptionPane.showMessageDialog(null, "NC cadastrada com sucesso!");
 			} else {
-				throw new SQLException("NC nÃ£o cadastrada.");
+				throw new SQLException("NC não cadastrada.");
 			}
 
 		} catch (SQLException e) {
@@ -51,7 +51,6 @@ public class NcsDAO implements IDAO {
 	}
 
 	// JoÃ£o Sereia
-	@Override
 	public ResultSet read(int idempresa) {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
@@ -59,7 +58,7 @@ public class NcsDAO implements IDAO {
 
 		try {
 			stmt = conn.prepareStatement(
-					"SELECT nc.idncs as `ID`, nc.titulo as `TÃ­tulo`, nc.descricao `DescriÃ§Ã£o`, responsavel.nome as `ResponsÃ¡vel`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `UsuÃ¡rio`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.usuario_empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.usuario_empresa_idempresa = ? ORDER BY nc.prazo");
+					"SELECT nc.idncs as `Id`, nc.titulo as `Título`, nc.descricao `Descrição`, responsavel.nome as `Responsável`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `Usuário`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.empresa_idempresa = ? ORDER BY nc.prazo");
 			stmt.setInt(1, idempresa);
 
 			rs = stmt.executeQuery();
@@ -83,7 +82,7 @@ public class NcsDAO implements IDAO {
 
 		try {
 			stmt = conn.prepareStatement(
-					"SELECT nc.idncs as `Id`, nc.titulo as `Título`, nc.descricao `Descrição`, responsavel.nome as `Responsável`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `Usuário`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.usuario_empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.usuario_empresa_idempresa = ? ORDER BY nc.prazo");
+					"SELECT nc.idncs as `Id`, nc.titulo as `Título`, nc.descricao `Descrição`, responsavel.nome as `Responsável`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `Usuário`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.empresa_idempresa = ? ORDER BY nc.prazo");
 			stmt.setInt(1, new EmpresaDAO().read(nomeFantasia).getIdEmpresa());
 
 			rs = stmt.executeQuery();
@@ -101,14 +100,6 @@ public class NcsDAO implements IDAO {
 		
 		return null;
 	}
-
-	// Gabriel/João
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-
-	}
-
 	public void update(NcsDTO ncsdto) {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
@@ -146,11 +137,9 @@ public class NcsDAO implements IDAO {
 	}
 
 	// Christopher
-	@Override
 	public void delete(int idnc) {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
-		ResultSet rs = null;
 
 		try {
 			String sql = "DELETE FROM ncs WHERE idncs=?";
@@ -158,7 +147,7 @@ public class NcsDAO implements IDAO {
 			stmt.setInt(1, idnc);
 
 			if (stmt.executeUpdate() > 0) {
-				JOptionPane.showMessageDialog(null, "NC excluÃ­da!");
+				JOptionPane.showMessageDialog(null, "NC excluída!");
 			} else {
 				throw new SQLException("Falha ao exluir NC.");
 			}
@@ -166,7 +155,7 @@ public class NcsDAO implements IDAO {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		} finally {
-			ConnectionFactory.closeConnection(conn, stmt, rs);
+			ConnectionFactory.closeConnection(conn, stmt);
 		}
 	}
 }

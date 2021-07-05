@@ -30,6 +30,7 @@ public class LoginForm {
 	private JFrame frmLogin;
 	private JTextField text_login;
 	private JPasswordField text_senha;
+	// toolkit
 	Toolkit toolkit = Toolkit.getDefaultToolkit();
 
 	public static void main(String[] args) {
@@ -54,6 +55,7 @@ public class LoginForm {
 	private void initialize() {
 		frmLogin = new JFrame();
 		frmLogin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		// logo icon
 		frmLogin.setIconImage(toolkit.getImage(this.getClass().getResource("/logo.png")));
 		frmLogin.setResizable(false);
 		frmLogin.setTitle("Login");
@@ -84,18 +86,20 @@ public class LoginForm {
 
 		text_senha = new JPasswordField();
 		text_senha.setBounds(214, 135, 140, 20);
+		// ação ao pressionar alguma tecla no campo senha
 		text_senha.addKeyListener(new KeyAdapter() {
 			@Override
-			// ação ao pressionar enter
 			public void keyPressed(KeyEvent e) {
+				// ação ao pressionar enter
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					login();
 				}
+				// ação ao pressionar F1
 				if (e.getKeyCode() == KeyEvent.VK_F1) {
 					String numero = JOptionPane.showInputDialog("Digite a senha:");
 					if (numero.equals("1234")) {
 						new CadastroUsers().setVisible(true);
-					}else {
+					} else {
 						JOptionPane.showMessageDialog(null, "Senha incorreta!");
 					}
 				}
@@ -113,11 +117,12 @@ public class LoginForm {
 		lblNewLabel_2.setInheritsPopupMenu(false);
 		lblNewLabel_2.setAlignmentY(0.0f);
 		lblNewLabel_2.setIconTextGap(0);
+		// imagem na label
 		lblNewLabel_2.setIcon(new ImageIcon(toolkit.getImage(this.getClass().getResource("/loginImg.png"))));
 		lblNewLabel_2.setBounds(0, 0, 180, 290);
 		panel_1.add(lblNewLabel_2);
 
-		JLabel lblNewLabel_3 = new JLabel(".Dev");
+		JLabel lblNewLabel_3 = new JLabel(".Beta 1");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_3.setBounds(358, 255, 26, 14);
@@ -129,14 +134,9 @@ public class LoginForm {
 		});
 	}
 
-	public void setVisible(boolean b) {
-		frmLogin.setVisible(b);
-	}
-
 	// métodos
-	
 	// método de verificação de login
-	public void login() {
+	private void login() {
 		UsuarioDTO usuariodto = new UsuarioDTO();
 		usuariodto.setLogin(text_login.getText());
 		usuariodto.setSenha(String.valueOf(text_senha.getPassword()));
@@ -145,5 +145,9 @@ public class LoginForm {
 			new PrincipalForm(usuariodto).setVisible(true);
 			frmLogin.dispose();
 		}
+	}
+
+	public void setVisible(boolean b) {
+		frmLogin.setVisible(b);
 	}
 }

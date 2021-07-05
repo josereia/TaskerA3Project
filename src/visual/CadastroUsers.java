@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.border.EmptyBorder;
 
+import controller.Administrador;
 import dao.EmpresaDAO;
 import dao.UsuarioDAO;
 import dto.EmpresaDTO;
@@ -37,7 +38,7 @@ public class CadastroUsers extends JDialog {
 	Toolkit toolkit = Toolkit.getDefaultToolkit();
 	private JTextField textField;
 	private JComboBox<String> comboBox;
-	private UsuarioDTO usuariodto;
+	private Administrador administrador;
 
 	public static void main(String[] args) {
 		try {
@@ -65,9 +66,11 @@ public class CadastroUsers extends JDialog {
 		initialize(false);
 	}
 
-	public CadastroUsers(JFrame principal, UsuarioDTO usuariodto) {
+	public CadastroUsers(JFrame principal, Administrador administrador) {
 		super(principal, true);
-		this.usuariodto = usuariodto;
+		this.administrador = administrador;
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setModal(true);
 		initialize(true);
 	}
 
@@ -217,7 +220,7 @@ public class CadastroUsers extends JDialog {
 	}
 
 	public void cadastrar() {
-		if (usuariodto != null) {
+		if (administrador != null) {
 			UsuarioDTO objusuariodto = new UsuarioDTO();
 
 			objusuariodto.setNome(txt_nome.getText());
@@ -226,9 +229,8 @@ public class CadastroUsers extends JDialog {
 			objusuariodto.setLogin(txt_login.getText());
 			objusuariodto.setSenha(String.valueOf(txt_senha.getPassword()));
 			objusuariodto.setAcesso(comboBox.getSelectedIndex() + 1);
-			objusuariodto.setEmpresa(usuariodto.getEmpresa());
 
-			new UsuarioDAO().create(objusuariodto);
+			administrador.cadastrarUsuario(objusuariodto);
 		} else {
 			EmpresaDTO empresadto = new EmpresaDTO();
 			UsuarioDTO objusuariodto = new UsuarioDTO();

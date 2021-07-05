@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,11 +10,10 @@ import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 
 import connection.ConnectionFactory;
-import dto.NcsDTO;
 import dto.UsuarioDTO;
 import net.proteanit.sql.DbUtils;
 
-public class UsuarioDAO implements IDAO {
+public class UsuarioDAO {
 
 	public UsuarioDTO checkLogin(UsuarioDTO usuariodto) {
 		Connection conn = ConnectionFactory.getConnection();
@@ -79,7 +77,6 @@ public class UsuarioDAO implements IDAO {
 	}
 
 	// JoÃ£o
-	@Override
 	public UsuarioDTO read(int id) {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
@@ -88,7 +85,7 @@ public class UsuarioDAO implements IDAO {
 		UsuarioDTO usuariodto = new UsuarioDTO();
 
 		try {
-			stmt = conn.prepareStatement("SELECT * FROM usuario WHERE id=?");
+			stmt = conn.prepareStatement("SELECT * FROM usuarios WHERE id=?");
 			stmt.setInt(1, id);
 
 			rs = stmt.executeQuery();
@@ -145,7 +142,7 @@ public class UsuarioDAO implements IDAO {
 
 		return usuariodto;
 	}
-	
+
 	public TableModel read(String empresa) {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
@@ -180,7 +177,7 @@ public class UsuarioDAO implements IDAO {
 			stmt = conn.prepareStatement(sql);
 
 			rs = stmt.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				niveisAcesso.add(rs.getString("acesso"));
 			}
 		} catch (SQLException e) {
@@ -192,7 +189,7 @@ public class UsuarioDAO implements IDAO {
 
 		return niveisAcesso;
 	}
-	
+
 	public int readNivelAcesso(String acesso) {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
@@ -204,7 +201,7 @@ public class UsuarioDAO implements IDAO {
 			stmt.setString(1, acesso);
 
 			rs = stmt.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				return rs.getInt("id");
 			}
 		} catch (SQLException e) {
@@ -216,16 +213,65 @@ public class UsuarioDAO implements IDAO {
 		return 0;
 	}
 
-	@Override
+	public TableModel filter(String input, String empresa) {
+		Connection conn = ConnectionFactory.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			int id = Integer.parseInt(input);
+			String sql = "SELECT usuario.idusuario, usuario.nome as `Nome`, usuario.sobrenome as `Sobrenome`, usuario.email as `Email`, usuario.login as `Login`, usuario.senha as `Senha`, empresa.nomeFantasia as `Empresa`, acesso.acesso as `Acesso` FROM usuarios AS usuario inner join niveisacesso as acesso on usuario.acesso = acesso.id inner join empresas as empresa on usuario.empresa_idempresa = empresa.idempresa where usuario.idusuario=? AND usuario.empresa_idempresa=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, id);
+			stmt.setInt(2, new EmpresaDAO().read(empresa).getIdEmpresa());
+
+			rs = stmt.executeQuery();
+			return DbUtils.resultSetToTableModel(rs);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			try {
+				String sql = "SELECT usuario.idusuario, usuario.nome as `Nome`, usuario.sobrenome as `Sobrenome`, usuario.email as `Email`, usuario.login as `Login`, usuario.senha as `Senha`, empresa.nomeFantasia as `Empresa`, acesso.acesso as `Acesso` FROM usuarios AS usuario inner join niveisacesso as acesso on usuario.acesso = acesso.id inner join empresas as empresa on usuario.empresa_idempresa = empresa.idempresa where usuario.nome LIKE ? AND usuario.empresa_idempresa=?";
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, input);
+				stmt.setInt(2, new EmpresaDAO().read(empresa).getIdEmpresa());
+
+				rs = stmt.executeQuery();
+				return DbUtils.resultSetToTableModel(rs);
+			} catch (SQLException er) {
+				JOptionPane.showMessageDialog(null, er.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+			} finally {
+				ConnectionFactory.closeConnection(conn, stmt, rs);
+			}
+		}
+
+		return null;
+	}
+
 	public void delete(int id) {
+		Connection conn = ConnectionFactory.getConnection();
+		PreparedStatement stmt = null;
 
+		try {
+			String sql = "DELETE FROM usuarios WHERE idusuario=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, id);
+
+			if (stmt.executeUpdate() > 0) {
+				JOptionPane.showMessageDialog(null, "Usuário excluído!");
+			} else {
+				throw new SQLException("Falha ao exluir usuário.");
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} finally {
+			ConnectionFactory.closeConnection(conn, stmt);
+		}
 	}
 
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-
-	}
 	public void update(UsuarioDTO usuariodto) {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;

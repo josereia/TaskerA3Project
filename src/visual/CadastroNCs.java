@@ -145,6 +145,6 @@ public class CadastroNCs extends JDialog {
 		ncsdto.setUsuario(usuariodto.getNome());
 		ncsdto.setUsuarioEmpresa(usuariodto.getEmpresa());
 		
-		new Funcionario().cadastrarNC(ncsdto);
+		new Funcionario(usuariodto).cadastrarNC(ncsdto);
 	}
 }
