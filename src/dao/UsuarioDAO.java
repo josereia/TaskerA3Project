@@ -63,9 +63,9 @@ public class UsuarioDAO {
 			stmt.setInt(7, new EmpresaDAO().read(usuariodto.getEmpresa()).getIdEmpresa());
 
 			if (stmt.executeUpdate() > 0) {
-				JOptionPane.showMessageDialog(null, "UsuÃ¡rio cadastrado com sucesso!");
+				JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
 			} else {
-				throw new SQLException("UsuÃ¡rio nÃ£o cadastrado.");
+				throw new SQLException("Usuário não cadastrado.");
 			}
 
 		} catch (SQLException e) {
@@ -97,7 +97,7 @@ public class UsuarioDAO {
 				usuariodto.setEmpresa(new EmpresaDAO().read(rs.getInt("empresa_idempresa")).getNomeFantasia());
 				usuariodto.setAcesso(rs.getInt("acesso"));
 			} else {
-				throw new SQLException("Falha ao obter dados do usuÃ¡rio.");
+				throw new SQLException("Falha ao obter dados do usuário.");
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
@@ -131,7 +131,7 @@ public class UsuarioDAO {
 				usuariodto.setEmpresa(new EmpresaDAO().read(rs.getInt("empresa_idempresa")).getNomeFantasia());
 				usuariodto.setAcesso(rs.getInt("acesso"));
 			} else {
-				throw new SQLException("UsuÃ¡rio nÃ£o encontrado.");
+				throw new SQLException("Usuário não encontrado.");
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
