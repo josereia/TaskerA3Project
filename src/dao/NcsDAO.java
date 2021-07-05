@@ -14,7 +14,7 @@ import net.proteanit.sql.DbUtils;
 
 public class NcsDAO {
 
-	// Lucas 
+	// Lucas
 	public void create(NcsDTO ncsdto) {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
@@ -25,8 +25,7 @@ public class NcsDAO {
 
 			stmt.setString(1, ncsdto.getTitulo());
 			stmt.setString(2, ncsdto.getDescricao());
-			stmt.setInt(3, new UsuarioDAO().read(ncsdto.getResponsavel(), ncsdto.getUsuarioEmpresa())
-					.getIdUsuario());
+			stmt.setInt(3, new UsuarioDAO().read(ncsdto.getResponsavel(), ncsdto.getUsuarioEmpresa()).getIdUsuario());
 
 			Date date = Date.valueOf(ncsdto.getPrazo());
 			stmt.setDate(4, date);
@@ -51,19 +50,30 @@ public class NcsDAO {
 	}
 
 	// JoÃ£o Sereia
-	public ResultSet read(int idempresa) {
+	public NcsDTO read(int idnc) {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 
+		NcsDTO ncsdto = new NcsDTO();
+
 		try {
 			stmt = conn.prepareStatement(
-					"SELECT nc.idncs as `Id`, nc.titulo as `Título`, nc.descricao `Descrição`, responsavel.nome as `Responsável`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `Usuário`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.empresa_idempresa = ? ORDER BY nc.prazo");
-			stmt.setInt(1, idempresa);
+					"SELECT nc.idncs as `Id`, nc.titulo as `Título`, nc.descricao `Descrição`, responsavel.nome as `Responsável`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `Usuário`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.idncs = ?");
+			stmt.setInt(1, idnc);
 
 			rs = stmt.executeQuery();
-			if (!rs.next()) {
-				throw new SQLException("Falha ao obter lista de NCs.");
+			if (rs.next()) {
+				ncsdto.setId(rs.getInt("Id"));
+				ncsdto.setTitulo(rs.getString("Título"));
+				ncsdto.setDescricao(rs.getString("Descrição"));
+				ncsdto.setResponsavel(rs.getString("Responsável"));
+				ncsdto.setPrazo(rs.getString("Prazo"));
+				ncsdto.setDataCadastro(rs.getString("Dada de Cadastro"));
+				ncsdto.setUsuario(rs.getString("Usuário"));
+				ncsdto.setStatus(rs.getString("Status"));
+			} else {
+				throw new SQLException("Falha ao obter NC.");
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
@@ -72,7 +82,7 @@ public class NcsDAO {
 			ConnectionFactory.closeConnection(conn, stmt, rs);
 		}
 
-		return rs;
+		return ncsdto;
 	}
 
 	public TableModel read(String nomeFantasia) {
@@ -86,8 +96,6 @@ public class NcsDAO {
 			stmt.setInt(1, new EmpresaDAO().read(nomeFantasia).getIdEmpresa());
 
 			rs = stmt.executeQuery();
-			
-			
 
 			return DbUtils.resultSetToTableModel(rs);
 
@@ -97,9 +105,10 @@ public class NcsDAO {
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt);
 		}
-		
+
 		return null;
 	}
+
 	public void update(NcsDTO ncsdto) {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
@@ -112,14 +121,13 @@ public class NcsDAO {
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, ncsdto.getTitulo());
 			stmt.setString(2, ncsdto.getDescricao());
-			stmt.setInt(3,
-					usuariodao.read(ncsdto.getResponsavel(), ncsdto.getUsuarioEmpresa()).getIdUsuario());
+			stmt.setInt(3, usuariodao.read(ncsdto.getResponsavel(), ncsdto.getUsuarioEmpresa()).getIdUsuario());
 
 			Date date = Date.valueOf(ncsdto.getPrazo());
 			stmt.setDate(4, date);
 
 			stmt.setInt(5, usuariodao.read(ncsdto.getUsuario(), ncsdto.getUsuarioEmpresa()).getIdUsuario());
-			stmt.setInt(6, 2);
+			stmt.setInt(6, this.readNcStatus(ncsdto.getStatus()));
 			stmt.setInt(7, ncsdto.getId());
 
 			if (stmt.executeUpdate() > 0) {
@@ -158,42 +166,29 @@ public class NcsDAO {
 			ConnectionFactory.closeConnection(conn, stmt);
 		}
 	}
-	
-	//filtros
-	public TableModel filteroTituloId(String input, String empresa) {
+
+	public int readNcStatus(String status) {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
+
 		try {
-			int idnc = Integer.parseInt(input);
-		    String sql = "SELECT nc.idncs as `Id`, nc.titulo as `Título`, nc.descricao `Descrição`, responsavel.nome as `Responsável`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `Usuário`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.idncs=? AND nc.empresa_idempresa = ?";
-			stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, idnc);
-			stmt.setInt(2, new EmpresaDAO().read(empresa).getIdEmpresa());
+			stmt = conn.prepareStatement("SELECT * FROM ncstatus WHERE status=?");
+			stmt.setString(1, status);
 
 			rs = stmt.executeQuery();
-			return DbUtils.resultSetToTableModel(rs);
+
+			if (rs.next()) {
+				return rs.getInt("idncStatus");
+			}
+
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			try {
-			    String sql = "SELECT nc.idncs as `Id`, nc.titulo as `Título`, nc.descricao `Descrição`, responsavel.nome as `Responsável`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `Usuário`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.titulo LIKE ? AND nc.empresa_idempresa = ?";
-				stmt = conn.prepareStatement(sql);
-				stmt.setString(1, "%"+input+"%");
-				stmt.setInt(2, new EmpresaDAO().read(empresa).getIdEmpresa());
-
-				rs = stmt.executeQuery();
-				return DbUtils.resultSetToTableModel(rs);
-			} catch (SQLException er) {
-				JOptionPane.showMessageDialog(null, er.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
-			} finally {
-				ConnectionFactory.closeConnection(conn, stmt, rs);
-			}
+		} finally {
+			ConnectionFactory.closeConnection(conn, stmt, rs);
 		}
 
-		return DbUtils.resultSetToTableModel(rs);
+		return 0;
 	}
 }

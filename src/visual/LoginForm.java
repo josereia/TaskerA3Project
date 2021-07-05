@@ -125,7 +125,7 @@ public class LoginForm {
 		JLabel lblNewLabel_3 = new JLabel(".Beta 1");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3.setBounds(358, 255, 26, 14);
+		lblNewLabel_3.setBounds(347, 254, 26, 14);
 		panel_1.add(lblNewLabel_3);
 		btn_entrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

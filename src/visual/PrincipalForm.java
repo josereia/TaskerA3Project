@@ -35,9 +35,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.RowFilter;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.JComboBox;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -50,9 +49,7 @@ public class PrincipalForm {
 	// toolkit
 	Toolkit toolkit = Toolkit.getDefaultToolkit();
 	private JTextField txt_tituloEid;
-	private JTextField txt_responsavel;
-	private JTextField txt_usuario;
-	private TableModel modelPadrao;
+	private TableRowSorter<TableModel> rowSorter;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -76,7 +73,6 @@ public class PrincipalForm {
 	public PrincipalForm(UsuarioDTO usuariodto) {
 		this.usuariodto = usuariodto;
 		this.funcionario = new Funcionario(usuariodto);
-		this.modelPadrao = new NcsDAO().read(usuariodto.getEmpresa());
 		initialize();
 	}
 
@@ -138,12 +134,17 @@ public class PrincipalForm {
 				if (resposta == JOptionPane.YES_OPTION) {
 					new Administrador(usuariodto).excluirNC(
 							Integer.parseInt(String.valueOf(table.getModel().getValueAt(table.getSelectedRow(), 0))));
-					carregarTabela(modelPadrao);
+					carregarTabela();
 				}
 			}
 		});
 
 		JButton btn_detalhes = new JButton("Detalhes");
+		btn_detalhes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new DetalhesNC(Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 0).toString())).setVisible(true);
+			}
+		});
 
 		JButton btnNewButton_2 = new JButton("Inserir");
 		btnNewButton_2.addActionListener(new ActionListener() {
@@ -154,7 +155,7 @@ public class PrincipalForm {
 				cadastroncs.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosed(WindowEvent e) {
-						carregarTabela(modelPadrao);
+						carregarTabela();
 					}
 				});
 			}
@@ -164,96 +165,54 @@ public class PrincipalForm {
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		carregarTabela(modelPadrao);
+		carregarTabela();
 
-		JLabel lblNewLabel = new JLabel("Procurar NC:");
+		JLabel lblNewLabel = new JLabel("Filtro:");
 
 		txt_tituloEid = new JTextField();
 		txt_tituloEid.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
-				if (txt_tituloEid.getText().equals("")) {
-					carregarTabela(modelPadrao);
+				String text = txt_tituloEid.getText();
+
+				if (text.trim().length() == 0) {
+					rowSorter.setRowFilter(null);
+					carregarTabela();
 				} else {
-					NcsDAO ncsdao = new NcsDAO();
-					carregarTabela(ncsdao.filteroTituloId(txt_tituloEid.getText(), funcionario.getEmpresa()));
+					rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
 				}
 			}
 		});
 		txt_tituloEid.setColumns(10);
 
-		JLabel lblNewLabel_1 = new JLabel("Usu\u00E1rio:");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
-
-		txt_responsavel = new JTextField();
-		txt_responsavel.setColumns(10);
-
-		JLabel lblNewLabel_1_1 = new JLabel("Respons\u00E1vel:");
-
-		JLabel lblNewLabel_2 = new JLabel("Status:");
-
-		JComboBox<String> cb_status = new JComboBox<String>();
-
-		txt_usuario = new JTextField();
-		txt_usuario.setColumns(10);
-
 		GroupLayout groupLayout = new GroupLayout(frmPrincipal.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
 				.createSequentialGroup().addContainerGap()
 				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
-						.addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout
-								.createParallelGroup(Alignment.LEADING, false)
-								.addGroup(groupLayout.createSequentialGroup().addComponent(lblNewLabel)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(txt_tituloEid, GroupLayout.PREFERRED_SIZE,
-												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(txt_usuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.PREFERRED_SIZE))
-								.addGroup(groupLayout.createSequentialGroup().addGap(149).addComponent(lblNewLabel_1_1)
-										.addPreferredGap(ComponentPlacement.RELATED).addComponent(txt_responsavel,
-												GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.PREFERRED_SIZE)))
-								.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(lblNewLabel_2)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(cb_status, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.TRAILING,
-								groupLayout.createSequentialGroup().addComponent(btnNewButton_2).addGap(10)
-										.addComponent(btn_detalhes).addGap(10).addComponent(btn_excluir)))
+						.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
+						.addGroup(groupLayout.createSequentialGroup().addGap(397).addComponent(btnNewButton_2)
+								.addGap(10).addComponent(btn_detalhes).addGap(10).addComponent(btn_excluir))
+						.addGroup(groupLayout.createSequentialGroup().addComponent(lblNewLabel)
+								.addPreferredGap(ComponentPlacement.RELATED).addComponent(txt_tituloEid,
+										GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)))
 				.addContainerGap()));
-		groupLayout
-				.setVerticalGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createSequentialGroup().addContainerGap()
-								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel)
-										.addComponent(txt_tituloEid, GroupLayout.PREFERRED_SIZE,
-												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblNewLabel_1)
-										.addComponent(txt_usuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblNewLabel_2).addComponent(cb_status, GroupLayout.PREFERRED_SIZE,
-												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblNewLabel_1_1).addComponent(txt_responsavel,
-												GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE).addGap(10)
-								.addGroup(
-										groupLayout.createParallelGroup(Alignment.LEADING).addComponent(btnNewButton_2)
-												.addComponent(btn_detalhes).addComponent(btn_excluir))
-								.addContainerGap()));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
+				.createSequentialGroup().addContainerGap()
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel).addComponent(
+						txt_tituloEid, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+						GroupLayout.PREFERRED_SIZE))
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE).addGap(10)
+				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(btnNewButton_2)
+						.addComponent(btn_detalhes).addComponent(btn_excluir))
+				.addContainerGap()));
 		frmPrincipal.getContentPane().setLayout(groupLayout);
 
 	}
 
 	// métodos
-	private void carregarTabela(TableModel model) {
-		table.setModel(model);
+	private void carregarTabela() {
+		table.setModel(new NcsDAO().read(funcionario.getEmpresa()));
 
 		table.getModel().addTableModelListener(new TableModelListener() {
 			@Override
@@ -280,9 +239,8 @@ public class PrincipalForm {
 			}
 		});
 
-		TableRowSorter<TableModel> tableSorter = new TableRowSorter<TableModel>(model);
-		table.setRowSorter(tableSorter);
-
+		rowSorter = new TableRowSorter<>(table.getModel());
+		table.setRowSorter(rowSorter);
 	}
 
 	private void logoff() {

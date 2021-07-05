@@ -7,19 +7,24 @@ import java.awt.Toolkit;
 
 import javax.swing.border.EmptyBorder;
 
+import dao.NcsDAO;
+import dto.NcsDTO;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.JTextArea;
 
 public class DetalhesNC extends JDialog{
 	private static final long serialVersionUID = 1L;
 	Toolkit toolkit = Toolkit.getDefaultToolkit();
-	private JTextField desc;
 	private JTextField prazo;
 	private JTextField dt_cadastro;
 	private JTextField status;
 	private JTextField user;
 	private JTextField reponsavel;
 	private JTextField titulo;
+	private NcsDTO ncsdto;
+	private JTextArea descricao;
 	
 	public static void main(String[] args) {
 		try {
@@ -40,7 +45,8 @@ public class DetalhesNC extends JDialog{
 	 * @param frmPrincipal 
 	 */
 	
-	public DetalhesNC() {
+	public DetalhesNC(int id) {
+		this.ncsdto = new NcsDAO().read(id);
 		initialize();
 	}
 	
@@ -60,8 +66,8 @@ public class DetalhesNC extends JDialog{
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Detalhes:");
-		lblNewLabel_1_1.setBounds(36, 38, 55, 22);
+		JLabel lblNewLabel_1_1 = new JLabel("T\u00EDtulo:");
+		lblNewLabel_1_1.setBounds(36, 11, 55, 22);
 		contentPanel.add(lblNewLabel_1_1);
 		
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Descri\u00E7\u00E3o:");
@@ -69,60 +75,69 @@ public class DetalhesNC extends JDialog{
 		contentPanel.add(lblNewLabel_1_1_1_1);
 		
 		JLabel lblNewLabel_1_1_1_2 = new JLabel("Respons\u00E1vel:");
-		lblNewLabel_1_1_1_2.setBounds(36, 301, 70, 14);
+		lblNewLabel_1_1_1_2.setBounds(10, 321, 70, 14);
 		contentPanel.add(lblNewLabel_1_1_1_2);
 		
 		JLabel lblNewLabel_1_1_1_3 = new JLabel("Prazo:");
-		lblNewLabel_1_1_1_3.setBounds(36, 71, 33, 14);
+		lblNewLabel_1_1_1_3.setBounds(36, 67, 33, 14);
 		contentPanel.add(lblNewLabel_1_1_1_3);
 		
 		JLabel lblNewLabel_1_1_1_4 = new JLabel("Data do Cadastro:");
-		lblNewLabel_1_1_1_4.setBounds(181, 71, 89, 14);
+		lblNewLabel_1_1_1_4.setBounds(181, 67, 89, 14);
 		contentPanel.add(lblNewLabel_1_1_1_4);
 		
 		JLabel lblNewLabel_1_1_1_5 = new JLabel("Status:");
-		lblNewLabel_1_1_1_5.setBounds(193, 121, 55, 14);
+		lblNewLabel_1_1_1_5.setBounds(180, 95, 55, 14);
 		contentPanel.add(lblNewLabel_1_1_1_5);
 		
 		JLabel lblNewLabel_1_1_1_2_1 = new JLabel("Usu\u00E1rio:");
-		lblNewLabel_1_1_1_2_1.setBounds(224, 301, 40, 14);
+		lblNewLabel_1_1_1_2_1.setBounds(230, 321, 40, 14);
 		contentPanel.add(lblNewLabel_1_1_1_2_1);
 		
 		titulo = new JTextField();
-		titulo.setBounds(85, 39, 271, 20);
+		titulo.setBounds(85, 12, 271, 20);
 		contentPanel.add(titulo);
 		titulo.setColumns(10);
 		
-		desc = new JTextField();
-		desc.setBounds(36, 147, 347, 143);
-		contentPanel.add(desc);
-		desc.setColumns(10);
-		
 		reponsavel = new JTextField();
-		reponsavel.setBounds(101, 298, 113, 20);
+		reponsavel.setBounds(77, 318, 113, 20);
 		contentPanel.add(reponsavel);
 		reponsavel.setColumns(10);
 		
 		prazo = new JTextField();
-		prazo.setBounds(67, 71, 86, 20);
+		prazo.setBounds(73, 64, 86, 20);
 		contentPanel.add(prazo);
 		prazo.setColumns(10);
 		
 		dt_cadastro = new JTextField();
-		dt_cadastro.setBounds(270, 68, 86, 20);
+		dt_cadastro.setBounds(270, 64, 86, 20);
 		contentPanel.add(dt_cadastro);
 		dt_cadastro.setColumns(10);
 		
 		status = new JTextField();
-		status.setBounds(230, 118, 139, 20);
+		status.setBounds(217, 92, 139, 20);
 		contentPanel.add(status);
 		status.setColumns(10);
 		
 		user = new JTextField();
-		user.setBounds(264, 298, 119, 20);
+		user.setBounds(275, 318, 119, 20);
 		contentPanel.add(user);
 		user.setColumns(10);
 		
+		descricao = new JTextArea();
+		descricao.setBounds(10, 139, 384, 171);
+		contentPanel.add(descricao);
 		
+		carregarCampos();
+	}
+	
+	private void carregarCampos() {
+		titulo.setText(ncsdto.getTitulo());
+		descricao.setText(ncsdto.getDescricao());
+		reponsavel.setText(ncsdto.getResponsavel());
+		prazo.setText(ncsdto.getPrazo());
+		dt_cadastro.setText(ncsdto.getDataCadastro());
+		user.setText(ncsdto.getUsuario());
+		status.setText(ncsdto.getStatus());
 	}
 } 
