@@ -26,10 +26,10 @@ public class Administrador extends Funcionario {
 	}
 
 	public void cadastrarUsuario(UsuarioDTO usuariodto) {
-		usuariodto.setEmpresa(this.getEmpresa());
+	
+	usuariodto.setEmpresa(this.getEmpresa());
 		new UsuarioDAO().create(usuariodto);
 	}
-
 	public void atualizarUsuario(UsuarioDTO usuariodto) {
 		new UsuarioDAO().update(usuariodto);
 	}
