@@ -43,7 +43,7 @@ public class NcsDAO {
 
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt);
 		}
@@ -77,7 +77,7 @@ public class NcsDAO {
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt, rs);
 		}
@@ -101,7 +101,7 @@ public class NcsDAO {
 
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt);
 		}
@@ -138,7 +138,7 @@ public class NcsDAO {
 
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt);
 		}
@@ -161,7 +161,7 @@ public class NcsDAO {
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt);
 		}
@@ -184,7 +184,7 @@ public class NcsDAO {
 
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt, rs);
 		}

@@ -18,6 +18,7 @@ import dto.EmpresaDTO;
 import dto.UsuarioDTO;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
@@ -220,35 +221,40 @@ public class CadastroUsers extends JDialog {
 	}
 
 	public void cadastrar() {
-		if (administrador != null) {
-			UsuarioDTO objusuariodto = new UsuarioDTO();
+		if(txt_nome.getText().isEmpty() || txt_sobrenome.getText().isEmpty() || txt_email.getText().isEmpty() || txt_login.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Nenhum campo pode estar vazio!");
+		}else {
+			if (administrador != null) {
+				UsuarioDTO objusuariodto = new UsuarioDTO();
 
-			objusuariodto.setNome(txt_nome.getText());
-			objusuariodto.setSobrenome(txt_sobrenome.getText());
-			objusuariodto.setEmail(txt_email.getText());
-			objusuariodto.setLogin(txt_login.getText());
-			objusuariodto.setSenha(String.valueOf(txt_senha.getPassword()));
-			objusuariodto.setAcesso(comboBox.getSelectedIndex() + 1);
+				objusuariodto.setNome(txt_nome.getText());
+				objusuariodto.setSobrenome(txt_sobrenome.getText());
+				objusuariodto.setEmail(txt_email.getText());
+				objusuariodto.setLogin(txt_login.getText());
+				objusuariodto.setSenha(String.valueOf(txt_senha.getPassword()));
+				objusuariodto.setAcesso(comboBox.getSelectedIndex() + 1);
 
-			administrador.cadastrarUsuario(objusuariodto);
-		} else {
-			EmpresaDTO empresadto = new EmpresaDTO();
-			UsuarioDTO objusuariodto = new UsuarioDTO();
+				administrador.cadastrarUsuario(objusuariodto);
+			} else {
+				EmpresaDTO empresadto = new EmpresaDTO();
+				UsuarioDTO objusuariodto = new UsuarioDTO();
 
-			empresadto.setNomeFantasia(txt_empresa.getText());
-			empresadto.setCnpj(textField.getText());
+				empresadto.setNomeFantasia(txt_empresa.getText());
+				empresadto.setCnpj(textField.getText());
 
-			objusuariodto.setNome(txt_nome.getText());
-			objusuariodto.setSobrenome(txt_sobrenome.getText());
-			objusuariodto.setEmail(txt_email.getText());
-			objusuariodto.setLogin(txt_login.getText());
-			objusuariodto.setSenha(String.valueOf(txt_senha.getPassword()));
-			objusuariodto.setAcesso(comboBox.getSelectedIndex() + 1);
-			objusuariodto.setEmpresa(empresadto.getNomeFantasia());
+				objusuariodto.setNome(txt_nome.getText());
+				objusuariodto.setSobrenome(txt_sobrenome.getText());
+				objusuariodto.setEmail(txt_email.getText());
+				objusuariodto.setLogin(txt_login.getText());
+				objusuariodto.setSenha(String.valueOf(txt_senha.getPassword()));
+				objusuariodto.setAcesso(comboBox.getSelectedIndex() + 1);
+				objusuariodto.setEmpresa(empresadto.getNomeFantasia());
 
-			new EmpresaDAO().create(empresadto);
-			new UsuarioDAO().create(objusuariodto);
+				new EmpresaDAO().create(empresadto);
+				new UsuarioDAO().create(objusuariodto);
+			}
 		}
-
+		
+		
 	}
 }

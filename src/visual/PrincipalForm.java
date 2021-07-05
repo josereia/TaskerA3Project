@@ -183,26 +183,41 @@ public class PrincipalForm {
 		txt_tituloEid.setColumns(10);
 
 		GroupLayout groupLayout = new GroupLayout(frmPrincipal.getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
-				.createSequentialGroup().addContainerGap()
-				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
-						.addGroup(groupLayout.createSequentialGroup().addGap(397).addComponent(btnNewButton_2)
-								.addGap(10).addComponent(btn_detalhes).addGap(10).addComponent(btn_excluir))
-						.addGroup(groupLayout.createSequentialGroup().addComponent(lblNewLabel)
-								.addPreferredGap(ComponentPlacement.RELATED).addComponent(txt_tituloEid,
-										GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)))
-				.addContainerGap()));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
-				.createSequentialGroup().addContainerGap()
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel).addComponent(
-						txt_tituloEid, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-						GroupLayout.PREFERRED_SIZE))
-				.addPreferredGap(ComponentPlacement.RELATED)
-				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE).addGap(10)
-				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(btnNewButton_2)
-						.addComponent(btn_detalhes).addComponent(btn_excluir))
-				.addContainerGap()));
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addGap(397)
+							.addComponent(btnNewButton_2)
+							.addGap(10)
+							.addComponent(btn_detalhes)
+							.addGap(10)
+							.addComponent(btn_excluir))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblNewLabel)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txt_tituloEid, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNewLabel)
+						.addComponent(txt_tituloEid, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
+					.addGap(10)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnNewButton_2)
+						.addComponent(btn_detalhes)
+						.addComponent(btn_excluir))
+					.addContainerGap())
+		);
 		frmPrincipal.getContentPane().setLayout(groupLayout);
 
 		

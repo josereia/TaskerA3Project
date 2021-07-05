@@ -14,6 +14,7 @@ import controller.Funcionario;
 import dto.NcsDTO;
 import dto.UsuarioDTO;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
@@ -53,9 +54,10 @@ public class CadastroNCs extends JDialog {
 
 	/**
 	 * Create the dialog.
-	 * @param actionListener 
-	 * @param usuariodto2 
-	 * @param frmPrincipal 
+	 * 
+	 * @param actionListener
+	 * @param usuariodto2
+	 * @param frmPrincipal
 	 */
 	public CadastroNCs() {
 		initialize();
@@ -137,14 +139,17 @@ public class CadastroNCs extends JDialog {
 	}
 
 	public void cadastrar() {
-		NcsDTO ncsdto = new NcsDTO();
-		ncsdto.setTitulo(txt_titulo.getText());
-		ncsdto.setDescricao(txt_descricao.getText());
-		ncsdto.setResponsavel(txt_responsavel.getText());
-		ncsdto.setPrazo(txt_prazo.getText());
-		ncsdto.setUsuario(usuariodto.getNome());
-		ncsdto.setUsuarioEmpresa(usuariodto.getEmpresa());
-		
-		new Funcionario(usuariodto).cadastrarNC(ncsdto);
+		if (txt_titulo.getText().isEmpty() || txt_descricao.getText().isEmpty() || txt_responsavel.getText().isEmpty()
+				|| txt_prazo.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Nenhum campo pode estar vazio!");
+		} else {
+			NcsDTO ncsdto = new NcsDTO();
+			ncsdto.setTitulo(txt_titulo.getText());
+			ncsdto.setDescricao(txt_descricao.getText());
+			ncsdto.setResponsavel(txt_responsavel.getText());
+			ncsdto.setPrazo(txt_prazo.getText());
+
+			new Funcionario(usuariodto).cadastrarNC(ncsdto);
+		}
 	}
 }

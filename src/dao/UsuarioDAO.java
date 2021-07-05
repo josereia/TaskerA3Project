@@ -38,7 +38,7 @@ public class UsuarioDAO {
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt, rs);
 		}
@@ -70,7 +70,7 @@ public class UsuarioDAO {
 
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt);
 		}
@@ -101,7 +101,7 @@ public class UsuarioDAO {
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt, rs);
 		}
@@ -135,7 +135,7 @@ public class UsuarioDAO {
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt, rs);
 		}
@@ -157,7 +157,7 @@ public class UsuarioDAO {
 			return DbUtils.resultSetToTableModel(rs);
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt, rs);
 		}
@@ -182,7 +182,7 @@ public class UsuarioDAO {
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt, rs);
 		}
@@ -206,7 +206,7 @@ public class UsuarioDAO {
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt, rs);
 		}
@@ -229,7 +229,7 @@ public class UsuarioDAO {
 			return DbUtils.resultSetToTableModel(rs);
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			
 		} catch (IllegalArgumentException e) {
 			try {
 				String sql = "SELECT usuario.idusuario, usuario.nome as `Nome`, usuario.sobrenome as `Sobrenome`, usuario.email as `Email`, usuario.login as `Login`, usuario.senha as `Senha`, empresa.nomeFantasia as `Empresa`, acesso.acesso as `Acesso` FROM usuarios AS usuario inner join niveisacesso as acesso on usuario.acesso = acesso.id inner join empresas as empresa on usuario.empresa_idempresa = empresa.idempresa where usuario.nome LIKE ? AND usuario.empresa_idempresa=?";
@@ -241,7 +241,7 @@ public class UsuarioDAO {
 				return DbUtils.resultSetToTableModel(rs);
 			} catch (SQLException er) {
 				JOptionPane.showMessageDialog(null, er.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
+				
 			} finally {
 				ConnectionFactory.closeConnection(conn, stmt, rs);
 			}
@@ -266,7 +266,7 @@ public class UsuarioDAO {
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt);
 		}
@@ -297,7 +297,7 @@ public class UsuarioDAO {
 
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			
 		} finally {
 			ConnectionFactory.closeConnection(conn, stmt);
 		}
