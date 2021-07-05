@@ -181,15 +181,22 @@ public class PrincipalForm {
 			}
 		});
 		txt_tituloEid.setColumns(10);
+		
+		JButton btnNewButton = new JButton("Atualizar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				carregarTabela();
+			}
+		});
 
 		GroupLayout groupLayout = new GroupLayout(frmPrincipal.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
-						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
+						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(397)
 							.addComponent(btnNewButton_2)
 							.addGap(10)
@@ -199,7 +206,9 @@ public class PrincipalForm {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(lblNewLabel)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txt_tituloEid, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(txt_tituloEid, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 400, Short.MAX_VALUE)
+							.addComponent(btnNewButton)))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
@@ -207,6 +216,7 @@ public class PrincipalForm {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnNewButton)
 						.addComponent(lblNewLabel)
 						.addComponent(txt_tituloEid, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
