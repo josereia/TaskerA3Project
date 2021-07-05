@@ -32,7 +32,7 @@ public class Funcionario {
 	public void alterarNC(NcsDTO ncsdto) {
 		ncsdto.setUsuario(this.getNome());
 		ncsdto.setUsuarioEmpresa(this.getEmpresa());
-		new NcsDAO().create(ncsdto);
+		new NcsDAO().update(ncsdto);
 	}
 
 	public int getIdusuario() {

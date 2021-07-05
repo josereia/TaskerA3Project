@@ -158,4 +158,42 @@ public class NcsDAO {
 			ConnectionFactory.closeConnection(conn, stmt);
 		}
 	}
+	
+	//filtros
+	public TableModel filteroTituloId(String input, String empresa) {
+		Connection conn = ConnectionFactory.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			int idnc = Integer.parseInt(input);
+		    String sql = "SELECT nc.idncs as `Id`, nc.titulo as `Título`, nc.descricao `Descrição`, responsavel.nome as `Responsável`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `Usuário`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.idncs=? AND nc.empresa_idempresa = ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, idnc);
+			stmt.setInt(2, new EmpresaDAO().read(empresa).getIdEmpresa());
+
+			rs = stmt.executeQuery();
+			return DbUtils.resultSetToTableModel(rs);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			try {
+			    String sql = "SELECT nc.idncs as `Id`, nc.titulo as `Título`, nc.descricao `Descrição`, responsavel.nome as `Responsável`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `Usuário`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.titulo LIKE ? AND nc.empresa_idempresa = ?";
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, "%"+input+"%");
+				stmt.setInt(2, new EmpresaDAO().read(empresa).getIdEmpresa());
+
+				rs = stmt.executeQuery();
+				return DbUtils.resultSetToTableModel(rs);
+			} catch (SQLException er) {
+				JOptionPane.showMessageDialog(null, er.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+			} finally {
+				ConnectionFactory.closeConnection(conn, stmt, rs);
+			}
+		}
+
+		return DbUtils.resultSetToTableModel(rs);
+	}
 }
