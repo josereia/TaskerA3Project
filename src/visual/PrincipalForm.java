@@ -27,7 +27,6 @@ import controller.Funcionario;
 import javax.swing.JButton;
 
 import dao.NcsDAO;
-import dao.UsuarioDAO;
 
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
@@ -39,7 +38,6 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -140,7 +138,7 @@ public class PrincipalForm {
 				if (resposta == JOptionPane.YES_OPTION) {
 					new Administrador(usuariodto).excluirNC(
 							Integer.parseInt(String.valueOf(table.getModel().getValueAt(table.getSelectedRow(), 0))));
-					// carregarTabela();
+					carregarTabela(modelPadrao);
 				}
 			}
 		});
@@ -156,7 +154,7 @@ public class PrincipalForm {
 				cadastroncs.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosed(WindowEvent e) {
-						// carregarTabela();
+						carregarTabela(modelPadrao);
 					}
 				});
 			}
@@ -166,7 +164,7 @@ public class PrincipalForm {
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		carregarTabela(new NcsDAO().read(funcionario.getEmpresa()));
+		carregarTabela(modelPadrao);
 
 		JLabel lblNewLabel = new JLabel("Procurar NC:");
 
@@ -174,15 +172,12 @@ public class PrincipalForm {
 		txt_tituloEid.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
-				/*TableRowSorter sorter = (TableRowSorter) table.getRowSorter();
-				sorter.setRowFilter(javax.swing.RowFilter.regexFilter("(?i).*" + txt_tituloEid.getText() + ".*"));
-				*/
-				/*if (txt_tituloEid.getText().equals("")) {
+				if (txt_tituloEid.getText().equals("")) {
 					carregarTabela(modelPadrao);
 				} else {
 					NcsDAO ncsdao = new NcsDAO();
 					carregarTabela(ncsdao.filteroTituloId(txt_tituloEid.getText(), funcionario.getEmpresa()));
-				}*/
+				}
 			}
 		});
 		txt_tituloEid.setColumns(10);
@@ -199,29 +194,18 @@ public class PrincipalForm {
 
 		JComboBox<String> cb_status = new JComboBox<String>();
 
-		JLabel lblNewLabel_2_1 = new JLabel("Prazo:");
-		lblNewLabel_2_1.setHorizontalAlignment(SwingConstants.RIGHT);
-
-		JComboBox<String> cb_prazo = new JComboBox<String>();
-		cb_prazo.setModel(new DefaultComboBoxModel<String>(new String[] { "Nenhum", "Crescente", "Decrescente" }));
-
-		JLabel lblNewLabel_2_1_1 = new JLabel("Cadastro:");
-
-		JComboBox<String> cb_cadastro = new JComboBox<String>();
-		cb_cadastro.setModel(new DefaultComboBoxModel<String>(new String[] { "Nenhum", "Crescente", "Decrescente" }));
-
 		txt_usuario = new JTextField();
 		txt_usuario.setColumns(10);
 
 		GroupLayout groupLayout = new GroupLayout(frmPrincipal.getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
-				groupLayout.createSequentialGroup().addContainerGap().addGroup(groupLayout
-						.createParallelGroup(Alignment.TRAILING)
-						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
-						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup().addGroup(groupLayout
-								.createParallelGroup(Alignment.TRAILING, false)
-								.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-										.addComponent(lblNewLabel).addPreferredGap(ComponentPlacement.RELATED)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
+				.createSequentialGroup().addContainerGap()
+				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
+						.addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout
+								.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(groupLayout.createSequentialGroup().addComponent(lblNewLabel)
+										.addPreferredGap(ComponentPlacement.RELATED)
 										.addComponent(txt_tituloEid, GroupLayout.PREFERRED_SIZE,
 												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addPreferredGap(ComponentPlacement.RELATED)
@@ -230,61 +214,41 @@ public class PrincipalForm {
 										.addPreferredGap(ComponentPlacement.RELATED)
 										.addComponent(txt_usuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 												GroupLayout.PREFERRED_SIZE))
-								.addGroup(Alignment.LEADING,
-										groupLayout.createSequentialGroup().addGap(149).addComponent(lblNewLabel_1_1)
-												.addPreferredGap(ComponentPlacement.RELATED).addComponent(
-														txt_responsavel, GroupLayout.PREFERRED_SIZE,
-														GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addGroup(groupLayout.createSequentialGroup()
-												.addComponent(lblNewLabel_2_1, GroupLayout.PREFERRED_SIZE, 47,
-														GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(cb_prazo, GroupLayout.PREFERRED_SIZE, 98,
-														GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-												.addComponent(lblNewLabel_2).addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(cb_status, GroupLayout.PREFERRED_SIZE, 98,
-														GroupLayout.PREFERRED_SIZE))
-										.addGroup(groupLayout.createSequentialGroup().addComponent(lblNewLabel_2_1_1)
-												.addPreferredGap(ComponentPlacement.RELATED).addComponent(cb_cadastro,
-														GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE))))
-						.addGroup(groupLayout.createSequentialGroup().addComponent(btnNewButton_2).addGap(10)
-								.addComponent(btn_detalhes).addGap(10).addComponent(btn_excluir)))
-						.addContainerGap()));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup().addContainerGap()
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup().addGap(149).addComponent(lblNewLabel_1_1)
+										.addPreferredGap(ComponentPlacement.RELATED).addComponent(txt_responsavel,
+												GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE)))
+								.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(lblNewLabel_2)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(cb_status, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE))
+						.addGroup(Alignment.TRAILING,
+								groupLayout.createSequentialGroup().addComponent(btnNewButton_2).addGap(10)
+										.addComponent(btn_detalhes).addGap(10).addComponent(btn_excluir)))
+				.addContainerGap()));
+		groupLayout
+				.setVerticalGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(groupLayout.createSequentialGroup().addContainerGap()
 								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel)
 										.addComponent(txt_tituloEid, GroupLayout.PREFERRED_SIZE,
 												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addComponent(lblNewLabel_1)
 										.addComponent(txt_usuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 												GroupLayout.PREFERRED_SIZE)
-										.addComponent(cb_prazo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.PREFERRED_SIZE)
 										.addComponent(lblNewLabel_2).addComponent(cb_status, GroupLayout.PREFERRED_SIZE,
 												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGroup(groupLayout.createSequentialGroup().addGap(4).addComponent(lblNewLabel_2_1)))
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel_1_1)
-								.addComponent(txt_responsavel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_2_1_1).addComponent(cb_cadastro, GroupLayout.PREFERRED_SIZE,
-										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(btnNewButton_2)
-								.addComponent(btn_detalhes).addComponent(btn_excluir))
-						.addGap(15)));
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblNewLabel_1_1).addComponent(txt_responsavel,
+												GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE).addGap(10)
+								.addGroup(
+										groupLayout.createParallelGroup(Alignment.LEADING).addComponent(btnNewButton_2)
+												.addComponent(btn_detalhes).addComponent(btn_excluir))
+								.addContainerGap()));
 		frmPrincipal.getContentPane().setLayout(groupLayout);
 
-		/*
-		 * if (usuariodto.getAcesso() < 2) { mnAdm.setVisible(false);
-		 * btn_excluir.setEnabled(false); }
-		 */
 	}
 
 	// métodos
@@ -315,6 +279,9 @@ public class PrincipalForm {
 				}
 			}
 		});
+
+		TableRowSorter<TableModel> tableSorter = new TableRowSorter<TableModel>(model);
+		table.setRowSorter(tableSorter);
 
 	}
 
