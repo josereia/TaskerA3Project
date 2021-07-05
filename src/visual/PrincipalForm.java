@@ -96,7 +96,12 @@ public class PrincipalForm {
 		JMenu mnNewMenu = new JMenu("Arquivo");
 		menuBar.add(mnNewMenu);
 
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Gerar relat\u00F3rio");
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Sobre");
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new SobreForm().setVisible(true);
+			}
+		});
 		mnNewMenu.add(mntmNewMenuItem_2);
 
 		JMenuItem mntmSair = new JMenuItem("Sair");
@@ -117,14 +122,6 @@ public class PrincipalForm {
 			}
 		});
 		mnAdm.add(mntmGerFuncionarios);
-
-		JMenu mnNewMenu_1 = new JMenu("Sobre");
-		mnNewMenu_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new SobreForm().setVisible(true);
-			}
-		});
-		menuBar.add(mnNewMenu_1);
 
 		JButton btn_excluir = new JButton("Excluir");
 		btn_excluir.addActionListener(new ActionListener() {
@@ -208,6 +205,10 @@ public class PrincipalForm {
 				.addContainerGap()));
 		frmPrincipal.getContentPane().setLayout(groupLayout);
 
+		
+		if(usuariodto.getAcesso() == 1) {
+			mnAdm.setVisible(false);
+		}
 	}
 
 	// métodos
@@ -247,7 +248,7 @@ public class PrincipalForm {
 		frmPrincipal.dispose();
 		new LoginForm().setVisible(true);
 	}
-
+	
 	public void setVisible(boolean b) {
 		frmPrincipal.setVisible(b);
 	}

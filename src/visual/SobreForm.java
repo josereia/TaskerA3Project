@@ -43,7 +43,7 @@ public class SobreForm extends JDialog {
 		// icone da janela
 		setIconImage(toolkit.getImage(this.getClass().getResource("/logo.png")));
 		setTitle("Sobre");
-		setBounds(100, 100, 450, 310);
+		setBounds(100, 100, 314, 310);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
