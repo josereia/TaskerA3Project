@@ -39,6 +39,8 @@ mv ./target/tasker-1.0.0-jar-with-dependencies.jar ./target/tasker-1.0.0.jar
 
 3. Criar o banco de dados
 
+Execute o comando abaixo e espere alguns segundos.
+
 ```bash
 docker compose up -d
 ```
@@ -48,6 +50,13 @@ docker compose up -d
 ```bash
 java -jar ./target/tasker-1.0.0.jar
 ```
+
+## Como usar
+
+Para fazer login entre com os seguintes dados:
+
+* Login: adm
+* Senha: adm
 
 ## Imagens
 
