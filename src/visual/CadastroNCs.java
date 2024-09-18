@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.formdev.flatlaf.FlatDarkLaf;
+
 import controller.Funcionario;
 import dto.NcsDTO;
 import dto.UsuarioDTO;
@@ -42,8 +44,8 @@ public class CadastroNCs extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			// define o estilo da janela para o estilo padrão do sistema operacional
-			javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+			// define o estilo da janela para o estilo padrï¿½o do sistema operacional
+			javax.swing.UIManager.setLookAndFeel(new FlatDarkLaf());
 			CadastroNCs dialog = new CadastroNCs();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);

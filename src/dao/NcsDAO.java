@@ -38,7 +38,7 @@ public class NcsDAO {
 			if (stmt.executeUpdate() > 0) {
 				JOptionPane.showMessageDialog(null, "NC cadastrada com sucesso!");
 			} else {
-				throw new SQLException("NC não cadastrada.");
+				throw new SQLException("NC nï¿½o cadastrada.");
 			}
 
 		} catch (SQLException e) {
@@ -59,18 +59,18 @@ public class NcsDAO {
 
 		try {
 			stmt = conn.prepareStatement(
-					"SELECT nc.idncs as `Id`, nc.titulo as `Título`, nc.descricao `Descrição`, responsavel.nome as `Responsável`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `Usuário`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.idncs = ?");
+					"SELECT nc.idncs as `Id`, nc.titulo as `Tï¿½tulo`, nc.descricao `Descriï¿½ï¿½o`, responsavel.nome as `Responsï¿½vel`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `Usuï¿½rio`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.idncs = ?");
 			stmt.setInt(1, idnc);
 
 			rs = stmt.executeQuery();
 			if (rs.next()) {
 				ncsdto.setId(rs.getInt("Id"));
-				ncsdto.setTitulo(rs.getString("Título"));
-				ncsdto.setDescricao(rs.getString("Descrição"));
-				ncsdto.setResponsavel(rs.getString("Responsável"));
+				ncsdto.setTitulo(rs.getString("Tï¿½tulo"));
+				ncsdto.setDescricao(rs.getString("Descriï¿½ï¿½o"));
+				ncsdto.setResponsavel(rs.getString("Responsï¿½vel"));
 				ncsdto.setPrazo(rs.getString("Prazo"));
 				ncsdto.setDataCadastro(rs.getString("Dada de Cadastro"));
-				ncsdto.setUsuario(rs.getString("Usuário"));
+				ncsdto.setUsuario(rs.getString("Usuï¿½rio"));
 				ncsdto.setStatus(rs.getString("Status"));
 			} else {
 				throw new SQLException("Falha ao obter NC.");
@@ -92,7 +92,7 @@ public class NcsDAO {
 
 		try {
 			stmt = conn.prepareStatement(
-					"SELECT nc.idncs as `Id`, nc.titulo as `Título`, nc.descricao `Descrição`, responsavel.nome as `Responsável`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `Usuário`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.empresa_idempresa = ? ORDER BY nc.prazo");
+					"SELECT nc.idncs as `Id`, nc.titulo as `Tï¿½tulo`, nc.descricao `Descriï¿½ï¿½o`, responsavel.nome as `Responsï¿½vel`, nc.prazo as `Prazo`, nc.dataCadastro as `Dada de Cadastro`, usuario.nome as `Usuï¿½rio`, ncStatus.status as `Status` FROM ncs AS nc inner join usuarios as `responsavel` on nc.responsavel_idusuario = responsavel.idusuario inner join usuarios as usuario on nc.usuario_idusuario = usuario.idusuario inner join empresas as empresa on nc.empresa_idempresa = empresa.idempresa inner join ncstatus as ncStatus on nc.ncStatus_idncStatus = ncStatus.idncStatus where nc.empresa_idempresa = ? ORDER BY nc.prazo");
 			stmt.setInt(1, new EmpresaDAO().read(nomeFantasia).getIdEmpresa());
 
 			rs = stmt.executeQuery();
@@ -155,7 +155,7 @@ public class NcsDAO {
 			stmt.setInt(1, idnc);
 
 			if (stmt.executeUpdate() > 0) {
-				JOptionPane.showMessageDialog(null, "NC excluída!");
+				JOptionPane.showMessageDialog(null, "NC excluï¿½da!");
 			} else {
 				throw new SQLException("Falha ao exluir NC.");
 			}

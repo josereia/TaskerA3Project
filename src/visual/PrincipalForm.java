@@ -21,6 +21,8 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import com.formdev.flatlaf.FlatDarkLaf;
+
 import controller.Administrador;
 import controller.Funcionario;
 
@@ -55,8 +57,8 @@ public class PrincipalForm {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					// define o estilo da janela para o estilo padrão do sistema operacionall
-					javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+					// define o estilo da janela para o estilo padrï¿½o do sistema operacionall
+					javax.swing.UIManager.setLookAndFeel(new FlatDarkLaf());
 					PrincipalForm window = new PrincipalForm();
 					window.frmPrincipal.setVisible(true);
 				} catch (Exception e) {
@@ -236,7 +238,7 @@ public class PrincipalForm {
 		}
 	}
 
-	// métodos
+	// mï¿½todos
 	private void carregarTabela() {
 		table.setModel(new NcsDAO().read(funcionario.getEmpresa()));
 

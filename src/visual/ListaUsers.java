@@ -26,6 +26,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import com.formdev.flatlaf.FlatDarkLaf;
+
 import controller.Administrador;
 
 import java.awt.event.KeyAdapter;
@@ -47,8 +49,8 @@ public class ListaUsers {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					// define o estilo da janela para o estilo padrão do sistema operacionall
-					javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+					// define o estilo da janela para o estilo padrï¿½o do sistema operacionall
+					javax.swing.UIManager.setLookAndFeel(new FlatDarkLaf());
 					ListaUsers window = new ListaUsers();
 					window.frmGerenciamentoDeUsurios.setVisible(true);
 				} catch (Exception e) {
@@ -119,7 +121,7 @@ public class ListaUsers {
 		JButton btnExcluir = new JButton("Excluir");
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int reply = JOptionPane.showConfirmDialog(null, "Este funcionário pode estar relacionado a alguma NC, altere os responsáveis para excluir!", "Excluir Funcionário",
+				int reply = JOptionPane.showConfirmDialog(null, "Este funcionï¿½rio pode estar relacionado a alguma NC, altere os responsï¿½veis para excluir!", "Excluir Funcionï¿½rio",
 						JOptionPane.YES_NO_OPTION);
 				if (reply == JOptionPane.YES_OPTION) {
 					administrador.excluirFuncionario(

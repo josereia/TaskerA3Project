@@ -26,7 +26,7 @@ public class EmpresaDAO {
 			if (stmt.executeUpdate() > 0) {
 				JOptionPane.showMessageDialog(null, "Empresa cadastrada com sucesso!");
 			} else {
-				throw new SQLException("Empresa não cadastrado.");
+				throw new SQLException("Empresa nï¿½o cadastrado.");
 			}
 
 		} catch (SQLException e) {

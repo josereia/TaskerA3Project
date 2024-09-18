@@ -7,6 +7,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.formdev.flatlaf.FlatDarkLaf;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -26,8 +29,8 @@ public class SobreForm extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			// define o estilo da janela para o estilo padrão do sistema operacionall
-			javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+			// define o estilo da janela para o estilo padrï¿½o do sistema operacionall
+			javax.swing.UIManager.setLookAndFeel(new FlatDarkLaf());
 			SobreForm dialog = new SobreForm();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);

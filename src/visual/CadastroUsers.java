@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.border.EmptyBorder;
 
+import com.formdev.flatlaf.FlatDarkLaf;
+
 import controller.Administrador;
 import dao.EmpresaDAO;
 import dao.UsuarioDAO;
@@ -43,8 +45,8 @@ public class CadastroUsers extends JDialog {
 
 	public static void main(String[] args) {
 		try {
-			// define o estilo da janela para o estilo padrão do sistema operacional
-			javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+			// define o estilo da janela para o estilo padrï¿½o do sistema operacional
+			javax.swing.UIManager.setLookAndFeel(new FlatDarkLaf());
 			CadastroUsers dialog = new CadastroUsers();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);

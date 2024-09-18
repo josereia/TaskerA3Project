@@ -23,6 +23,9 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
+
+import com.formdev.flatlaf.FlatDarkLaf;
+
 import java.awt.Font;
 
 public class LoginForm {
@@ -37,8 +40,8 @@ public class LoginForm {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					// define o estilo da janela para o estilo padrão do sistema operacional
-					javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+					// define o estilo da janela para o estilo padrï¿½o do sistema operacional
+					javax.swing.UIManager.setLookAndFeel(new FlatDarkLaf());
 					LoginForm window = new LoginForm();
 					window.frmLogin.setVisible(true);
 				} catch (Exception e) {
@@ -86,15 +89,15 @@ public class LoginForm {
 
 		text_senha = new JPasswordField();
 		text_senha.setBounds(214, 135, 140, 20);
-		// ação ao pressionar alguma tecla no campo senha
+		// aï¿½ï¿½o ao pressionar alguma tecla no campo senha
 		text_senha.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				// ação ao pressionar enter
+				// aï¿½ï¿½o ao pressionar enter
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					login();
 				}
-				// ação ao pressionar F1
+				// aï¿½ï¿½o ao pressionar F1
 				if (e.getKeyCode() == KeyEvent.VK_F1) {
 					String numero = JOptionPane.showInputDialog("Digite a senha:");
 					if (numero.equals("1234")) {
@@ -134,8 +137,8 @@ public class LoginForm {
 		});
 	}
 
-	// métodos
-	// método de verificação de login
+	// mï¿½todos
+	// mï¿½todo de verificaï¿½ï¿½o de login
 	private void login() {
 		UsuarioDTO usuariodto = new UsuarioDTO();
 		usuariodto.setLogin(text_login.getText());

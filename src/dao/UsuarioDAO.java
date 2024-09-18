@@ -63,9 +63,9 @@ public class UsuarioDAO {
 			stmt.setInt(7, new EmpresaDAO().read(usuariodto.getEmpresa()).getIdEmpresa());
 
 			if (stmt.executeUpdate() > 0) {
-				JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
+				JOptionPane.showMessageDialog(null, "Usuï¿½rio cadastrado com sucesso!");
 			} else {
-				throw new SQLException("Usuário não cadastrado.");
+				throw new SQLException("Usuï¿½rio nï¿½o cadastrado.");
 			}
 
 		} catch (SQLException e) {
@@ -97,7 +97,7 @@ public class UsuarioDAO {
 				usuariodto.setEmpresa(new EmpresaDAO().read(rs.getInt("empresa_idempresa")).getNomeFantasia());
 				usuariodto.setAcesso(rs.getInt("acesso"));
 			} else {
-				throw new SQLException("Falha ao obter dados do usuário.");
+				throw new SQLException("Falha ao obter dados do usuï¿½rio.");
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
@@ -131,7 +131,7 @@ public class UsuarioDAO {
 				usuariodto.setEmpresa(new EmpresaDAO().read(rs.getInt("empresa_idempresa")).getNomeFantasia());
 				usuariodto.setAcesso(rs.getInt("acesso"));
 			} else {
-				throw new SQLException("Usuário não encontrado.");
+				throw new SQLException("Usuï¿½rio nï¿½o encontrado.");
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);
@@ -260,9 +260,9 @@ public class UsuarioDAO {
 			stmt.setInt(1, id);
 
 			if (stmt.executeUpdate() > 0) {
-				JOptionPane.showMessageDialog(null, "Usuário excluído!");
+				JOptionPane.showMessageDialog(null, "Usuï¿½rio excluï¿½do!");
 			} else {
-				throw new SQLException("Falha ao exluir usuário.");
+				throw new SQLException("Falha ao exluir usuï¿½rio.");
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);

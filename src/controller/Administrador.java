@@ -21,7 +21,7 @@ public class Administrador extends Funcionario {
 		if (this.getAcesso() > 1) {
 			new NcsDAO().delete(idnc);
 		} else {
-			JOptionPane.showMessageDialog(null, "Você não tem permissão para isso!");
+			JOptionPane.showMessageDialog(null, "Vocï¿½ nï¿½o tem permissï¿½o para isso!");
 		}
 	}
 
