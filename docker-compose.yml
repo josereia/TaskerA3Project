@@ -1,0 +1,19 @@
+name: tasker
+
+services:
+  database:
+    image: mysql:8.0
+    container_name: tasker_database
+    environment:
+      MYSQL_DATABASE: tasker
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./src/main/resources:/docker-entrypoint-initdb.d
+    networks:
+      - tasker_network
+
+networks:
+  tasker_network:
+    driver: bridge
